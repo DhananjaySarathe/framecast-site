@@ -663,8 +663,29 @@
               <li><span class="n">4</span><div><b>Allow the camera, mic and screen</b> when Framecast first needs them. After you allow Screen Recording, quit and reopen Framecast.</div></li>
             </ol>
             <p class="fine">Following your voice needs macOS 26 or later. Everything else works on macOS 14 and up. Prefer to build it yourself? <a href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="download section">The source is on GitHub.</a></p>
-            <p class="dl-guests"><b>Want guests from anywhere?</b> Host Framecast's guest page once, for free. <a href="guests.html" data-track="Guest Setup Click" data-track-where="download section">Set up remote guests</a></p>
           </div>
+        </div>
+
+        <!-- Guest mode needs one extra download; many people won't know it exists. -->
+        <div class="guest-mode reveal" id="guest-mode">
+          <div class="gm-head">
+            <p class="gm-pill"><svg aria-hidden="true"><use href="#i-guests"/></svg>Guest mode</p>
+            <h3 class="gm-title">Inviting guests? Get the guest page too.</h3>
+            <p class="gm-lead">Framecast can bring guests onto your show straight from their browser. For guests outside your Wi-Fi, guest mode needs one extra file: the guest page. You set it up once, for free.</p>
+          </div>
+          <ol class="gm-steps">
+            <li><span class="gm-n">1</span><h4>Download the guest page</h4><p>A small zip with the page your guests open. No keys or personal details inside.</p></li>
+            <li><span class="gm-n">2</span><h4>Put it online</h4><p>Upload it to Cloudflare Pages and create a LiveKit Cloud project. Both are free.</p></li>
+            <li><span class="gm-n">3</span><h4>Connect it in Framecast</h4><p>Guests tab › Anyone with a link › Load .env file…, then send each guest an invite link.</p></li>
+          </ol>
+          <div class="gm-actions">
+            <a class="btn btn-primary" href="downloads/framecast-guest-page.zip" download data-track="Guest Page Download" data-track-where="home guest mode">
+              <svg aria-hidden="true"><use href="#i-download"/></svg>Download guest page (.zip)
+            </a>
+            <a class="btn btn-ghost" href="guests.html" data-track="Guest Setup Click" data-track-where="home guest mode">Step-by-step guide<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <span class="gm-size">114 KB · for Framecast 1.0.0</span>
+          </div>
+          <p class="gm-note">Only inviting people on this Mac or your Wi-Fi? You don't need the file: pick This Mac only or People on my Wi-Fi in the Guests tab. Those need LiveKit installed once with <code>brew install livekit</code>.</p>
         </div>
       </div>
     </section>
