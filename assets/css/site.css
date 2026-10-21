@@ -1,4 +1,5 @@
-/* Framecast site. Black and white; the only colour is the red live/recording dot.
+/* Framecast site. Black and white, light by default (the toggle switches to dark);
+   the only colour is the red live/recording dot.
    System fonts only; nothing is loaded from other servers. */
 
 :root {
@@ -31,32 +32,6 @@
   --studio-shadow: 0 50px 100px -40px rgba(0, 0, 0, .45), 0 0 0 1px rgba(0, 0, 0, .06);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --bg: #000000;
-    --bg-2: #0a0a0a;
-    --surface: #0a0a0a;
-    --surface-2: #0e0e0e;
-    --border: rgba(255, 255, 255, .08);
-    --border-strong: rgba(255, 255, 255, .15);
-    --text: #fafafa;
-    --muted: #a3a3a3;
-    --faint: #8a8a8a;
-    --dim: #6e6e6e;
-    --btn: #fafafa;
-    --btn-hover: #d9d9d9;
-    --btn-text: #0a0a0a;
-    --grid: rgba(255, 255, 255, .045);
-    --art-bg: #0a0a0a;
-    --art-card: #151515;
-    --art-soft: #2a2a2a;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .5);
-    --shadow-lg: 0 30px 70px -30px rgba(0, 0, 0, .9);
-    --studio-shadow: 0 0 0 1px rgba(255, 255, 255, .1), 0 50px 120px -50px rgba(255, 255, 255, .12);
-  }
-}
-
 :root[data-theme="dark"] {
   color-scheme: dark;
   --bg: #000000;
@@ -83,10 +58,6 @@
 
 /* Theme toggle icons: the moon offers dark mode, the sun offers light mode. */
 .if-dark { display: none; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .if-light { display: none; }
-  :root:not([data-theme="light"]) .if-dark { display: block; }
-}
 :root[data-theme="dark"] .if-light { display: none; }
 :root[data-theme="dark"] .if-dark { display: block; }
 

@@ -21,8 +21,8 @@
   function setupTheme() {
     const button = $("[data-theme-toggle]");
     const root = document.documentElement;
-    const systemDark = matchMedia("(prefers-color-scheme: dark)");
-    const current = () => root.dataset.theme || (systemDark.matches ? "dark" : "light");
+    // Light unless the visitor picked dark with the toggle.
+    const current = () => root.dataset.theme || "light";
     const label = () => button.setAttribute("aria-label", current() === "dark" ? "Switch to light mode" : "Switch to dark mode");
     button.addEventListener("click", () => {
       const next = current() === "dark" ? "light" : "dark";
@@ -30,7 +30,6 @@
       try { localStorage.setItem("framecast-theme", next); } catch (e) {}
       label();
     });
-    systemDark.addEventListener("change", label);
     label();
   }
 

@@ -9,7 +9,7 @@ Content-Security-Policy in `index.html` keeps it that way.
 
 ```
 index.html            the page
-assets/css/site.css   styles (light and dark follow the system; the toggle overrides)
+assets/css/site.css   styles (light by default; the toggle switches to dark)
 assets/js/theme.js    applies a saved light/dark choice before the page paints
 assets/js/site.js     hero animation, screenshot tabs, copy buttons, scroll reveal
 assets/img/           screenshots (WebP), app icon, favicon
