@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
+  <title>Framecast: a free live studio for Mac with an AI director</title>
+  <meta name="description" content="Framecast is a free, open-source macOS app for live streaming and recording. It renders 16:9 and 9:16 at once, and an AI director switches layouts and graphics as you talk.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Framecast: a free live studio for Mac with an AI director">
+  <meta property="og:description" content="Stream and record 16:9 and 9:16 at once. An AI director follows what you say and switches layouts and graphics. Free and open source.">
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-64.png" type="image/png" sizes="64x64">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/site.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Shared SVG pieces: icons and the gradients the hero graphics use. -->
+  <svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
+    <defs>
+      <linearGradient id="g-route" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#8a8a8a"/>
+        <stop offset="1" stop-color="#ffffff"/>
+      </linearGradient>
+      <linearGradient id="g-bar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#4a4a4a"/>
+        <stop offset="1" stop-color="#2e2e2e"/>
+      </linearGradient>
+      <linearGradient id="g-bar-hi" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff"/>
+        <stop offset="1" stop-color="#d9d9d9"/>
+      </linearGradient>
+      <linearGradient id="g-room" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#2b2b2b"/>
+        <stop offset="1" stop-color="#151515"/>
+      </linearGradient>
+      <radialGradient id="g-lamp" cx=".18" cy=".2" r=".6">
+        <stop offset="0" stop-color="#ffffff" stop-opacity=".14"/>
+        <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="g-sweater" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#3d3d3d"/>
+        <stop offset="1" stop-color="#262626"/>
+      </linearGradient>
+    </defs>
+    <symbol id="i-canvases" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="12.5" height="8" rx="1.6"/><rect x="16.5" y="3.5" width="5.5" height="17" rx="1.6"/></symbol>
+    <symbol id="i-record" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-stream" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"/><path d="M8.6 15.4a4.8 4.8 0 0 1 0-6.8M15.4 8.6a4.8 4.8 0 0 1 0 6.8M5.7 18.3a8.9 8.9 0 0 1 0-12.6M18.3 5.7a8.9 8.9 0 0 1 0 12.6"/></symbol>
+    <symbol id="i-layouts" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M10 10v10"/></symbol>
+    <symbol id="i-overlay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><rect x="5.5" y="13" width="9.5" height="4" rx="1" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-director" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16v8.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="m4 10-.7-2.9a1 1 0 0 1 .8-1.2l13.6-3a1 1 0 0 1 1.2.8l.6 2.9zM8.3 5.2l2.6 3.6M13.6 4l2.6 3.6"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></symbol>
+    <symbol id="i-guests" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c.6-3.3 3-5 6-5s5.4 1.7 6 5"/><circle cx="17" cy="9.5" r="2.5"/><path d="M16.6 14.6c2.4.2 3.9 1.6 4.4 4.4"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"><path d="M4.2 4.5h15.6a1.2 1.2 0 0 1 1.2 1.2v9.6a1.2 1.2 0 0 1-1.2 1.2H11l-5 4v-4H4.2A1.2 1.2 0 0 1 3 15.3V5.7a1.2 1.2 0 0 1 1.2-1.2z"/><path d="M7.5 9h9M7.5 12.5h6" stroke-linecap="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5v-3a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11.5M7 10.5l5 5 5-5M4.5 20h15"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5V5A1.5 1.5 0 0 0 14 3.5H5A1.5 1.5 0 0 0 3.5 5v9A1.5 1.5 0 0 0 5 15.5h3.5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6.5" y="5" width="4" height="14" rx="1.2"/><rect x="13.5" y="5" width="4" height="14" rx="1.2"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.6v12.8a1 1 0 0 0 1.5.86l10.4-6.4a1 1 0 0 0 0-1.72L9.5 4.74A1 1 0 0 0 8 5.6z"/></symbol>
+    <symbol id="i-github" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
+  </svg>
+
+  <header class="nav" data-nav>
+    <div class="wrap nav-in">
+      <a class="brand" href="#top" aria-label="Framecast, back to top">
+        <svg class="mark" viewBox="100 100 824 824" width="28" height="28" aria-hidden="true" focusable="false"><rect class="mark-body" x="100" y="100" width="824" height="824" rx="185"/><path class="mark-line" d="M215 334V215h119M690 215h119v119M215 690v119h119M690 809h119V690" stroke-width="46"/><rect class="mark-line" x="284" y="433" width="368" height="207" rx="26" stroke-width="40"/><rect class="mark-line mark-front" x="536" y="299" width="194" height="344" rx="26" stroke-width="40"/><circle class="mark-dot" cx="723" cy="301" r="42"/></svg>
+        <span>Framecast</span>
+      </a>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#studio">Studio</a>
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#open-source">Open source</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="icon-btn" href="https://github.com/DhananjaySarathe/framecast-studio" aria-label="Framecast on GitHub">
+          <svg aria-hidden="true"><use href="#i-github"/></svg>
+        </a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch to dark mode">
+          <svg class="if-light" aria-hidden="true"><use href="#i-moon"/></svg>
+          <svg class="if-dark" aria-hidden="true"><use href="#i-sun"/></svg>
+        </button>
+        <a class="btn btn-primary btn-sm" href="#download">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="wrap hero-in">
+        <p class="eyebrow-pill"><span class="dot" aria-hidden="true"></span>Free and open source, for macOS</p>
+        <h1>You talk.<br><em>Framecast directs.</em></h1>
+        <p class="lead">
+          A live studio for your Mac that streams and records a 16:9 and a 9:16 canvas at once.
+          Its AI director follows what you say, changes the layout and brings in your graphics as you reach each topic.
+          Don't like a switch? One shortcut takes it back.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary btn-lg" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link data-show-steps>
+            <svg aria-hidden="true"><use href="#i-download"/></svg>Download for Mac
+          </a>
+          <a class="btn btn-ghost btn-lg" href="https://github.com/DhananjaySarathe/framecast-studio">
+            <svg aria-hidden="true"><use href="#i-github"/></svg>Source on GitHub
+          </a>
+        </div>
+        <p class="meta">Version 1.0.0 <span aria-hidden="true">·</span> macOS 14 or later <span aria-hidden="true">·</span> Apple silicon and Intel <span aria-hidden="true">·</span> 71 MB</p>
+
+        <!-- Animated illustration: one presenter, two canvases, the AI director switching looks. -->
+        <div class="studio" data-stage>
+          <p class="sr-only">
+            Illustration: a presenter is live on a 16:9 and a 9:16 canvas at the same time. As they talk, Framecast's
+            AI director moves from the camera to a screen share, then a roadmap graphic with a round camera bubble,
+            then a bar chart with the camera beside it. When it makes the chart full screen, the presenter presses
+            Control Option Command U and the change is undone.
+          </p>
+          <div class="studio-bar" aria-hidden="true">
+            <span class="lights"><i></i><i></i><i></i></span>
+            <span class="seg"><span>16:9</span><span>9:16</span><span class="is-on">Both</span></span>
+            <span class="rec"><i></i>Rec 16:9 + 9:16</span>
+          </div>
+          <button class="stage-toggle" type="button" data-stage-toggle aria-pressed="false">
+            <svg class="if-running" aria-hidden="true"><use href="#i-pause"/></svg>
+            <svg class="if-paused" aria-hidden="true"><use href="#i-play"/></svg>
+            <span class="sr-only" data-stage-toggle-label>Pause animation</span>
+          </button>
+
+          <div class="stage" aria-hidden="true" data-look="screen">
+            <figure class="cv cv-h">
+              <div class="cv-inner" data-canvas="h">
+                <div class="ly ly-screen on" data-ly="screen">
+                  <svg viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <rect width="1440" height="760" fill="#161616"/>
+                    <rect width="250" height="760" fill="#111111"/>
+                    <g fill="#2a2a2a">
+                      <rect x="40" y="70" width="150" height="14" rx="7"/><rect x="60" y="110" width="120" height="14" rx="7"/>
+                      <rect x="60" y="150" width="140" height="14" rx="7"/><rect x="40" y="190" width="110" height="14" rx="7"/>
+                      <rect x="60" y="230" width="130" height="14" rx="7"/><rect x="40" y="270" width="150" height="14" rx="7"/>
+                    </g>
+                    <rect class="code-hl" x="250" y="56" width="1190" height="40" fill="#ffffff" fill-opacity=".05"/>
+                    <g class="code">
+                      <rect x="300" y="70" width="180" height="12" rx="6" fill="#ededed"/>
+                      <rect x="330" y="106" width="250" height="12" rx="6" fill="#8f8f8f"/>
+                      <rect x="360" y="142" width="300" height="12" rx="6" fill="#5e5e5e"/>
+                      <rect x="390" y="178" width="340" height="12" rx="6" fill="#c2c2c2"/>
+                      <rect x="420" y="214" width="280" height="12" rx="6" fill="#ededed"/>
+                      <rect x="300" y="250" width="420" height="12" rx="6" fill="#8f8f8f"/>
+                      <rect x="330" y="286" width="380" height="12" rx="6" fill="#5e5e5e"/>
+                      <rect x="360" y="322" width="520" height="12" rx="6" fill="#c2c2c2"/>
+                      <rect x="390" y="358" width="600" height="12" rx="6" fill="#ededed"/>
+                      <rect x="420" y="394" width="460" height="12" rx="6" fill="#8f8f8f"/>
+                      <rect x="300" y="430" width="330" height="12" rx="6" fill="#5e5e5e"/>
+                      <rect x="330" y="466" width="560" height="12" rx="6" fill="#c2c2c2"/>
+                      <rect x="360" y="502" width="640" height="12" rx="6" fill="#ededed"/>
+                      <rect x="390" y="538" width="500" height="12" rx="6" fill="#8f8f8f"/>
+                      <rect x="420" y="574" width="560" height="12" rx="6" fill="#5e5e5e"/>
+                      <rect x="300" y="610" width="200" height="12" rx="6" fill="#8f8f8f"/>
+                      <rect x="330" y="646" width="360" height="12" rx="6" fill="#c2c2c2"/>
+                      <rect x="360" y="682" width="280" height="12" rx="6" fill="#ededed"/>
+                    </g>
+                    <rect class="caret" x="652" y="678" width="6" height="22" rx="2" fill="#ffffff"/>
+                  </svg>
+                </div>
+                <div class="ly ly-roadmap" data-ly="roadmap">
+                  <svg viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid meet" focusable="false">
+                    <text x="90" y="130" class="g-title">The next three months</text>
+                    <text x="90" y="182" class="g-sub">Roadmap</text>
+                    <path class="route-glow" pathLength="1" d="M170 560C320 560 330 420 480 420S660 480 790 480 960 300 1100 300"/>
+                    <path class="route" pathLength="1" d="M170 560C320 560 330 420 480 420S660 480 790 480 960 300 1100 300"/>
+                    <g class="stops">
+                      <g class="stop"><circle cx="170" cy="560" r="18"/><text x="170" y="625">Plan</text></g>
+                      <g class="stop"><circle cx="480" cy="420" r="18"/><text x="480" y="485">Build</text></g>
+                      <g class="stop"><circle cx="790" cy="480" r="18"/><text x="790" y="545">Beta</text></g>
+                      <g class="stop is-last"><circle cx="1100" cy="300" r="22"/><text x="1100" y="370">Launch</text></g>
+                    </g>
+                  </svg>
+                </div>
+                <div class="ly ly-bars" data-ly="bars">
+                  <svg viewBox="0 0 960 660" preserveAspectRatio="xMidYMid meet" focusable="false">
+                    <text x="60" y="100" class="g-title">Last four streams</text>
+                    <text x="60" y="146" class="g-sub">Peak viewers</text>
+                    <path d="M60 560H900" stroke="#ffffff" stroke-opacity=".16" stroke-width="3"/>
+                    <g class="bars">
+                      <rect x="110" y="410" width="140" height="150" rx="14" fill="url(#g-bar)"/>
+                      <rect x="300" y="340" width="140" height="220" rx="14" fill="url(#g-bar)"/>
+                      <rect x="490" y="290" width="140" height="270" rx="14" fill="url(#g-bar)"/>
+                      <rect x="680" y="180" width="140" height="380" rx="14" fill="url(#g-bar-hi)"/>
+                    </g>
+                    <g class="g-axis"><text x="180" y="610">#1</text><text x="370" y="610">#2</text><text x="560" y="610">#3</text><text x="750" y="610">#4</text></g>
+                  </svg>
+                </div>
+                <div class="ly ly-cam on" data-ly="cam">
+                  <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <rect x="-400" y="-400" width="1200" height="1200" fill="url(#g-room)"/>
+                    <rect x="-400" y="-400" width="1200" height="1200" fill="url(#g-lamp)"/>
+                    <g fill="#000" fill-opacity=".22"><rect x="262" y="118" width="150" height="7" rx="3"/></g>
+                    <g><rect x="276" y="84" width="14" height="34" rx="2" fill="#5a5a5a"/><rect x="293" y="90" width="12" height="28" rx="2" fill="#7a7a7a"/><rect x="308" y="80" width="16" height="38" rx="2" fill="#484848"/><rect x="330" y="96" width="30" height="22" rx="11" fill="#ffffff" fill-opacity=".18"/></g>
+                    <g fill="#3a3a3a"><ellipse cx="44" cy="300" rx="16" ry="44" transform="rotate(-22 44 300)"/><ellipse cx="70" cy="292" rx="14" ry="48" transform="rotate(14 70 292)"/><ellipse cx="56" cy="270" rx="12" ry="40"/></g>
+                    <g class="person">
+                      <path d="M86 410c8-92 56-136 114-136s106 44 114 136z" fill="url(#g-sweater)"/>
+                      <path d="M180 236h40v44c-6 9-34 9-40 0z" fill="#b5b5b5"/>
+                      <ellipse cx="154" cy="194" rx="9" ry="13" fill="#c2c2c2"/>
+                      <ellipse cx="246" cy="194" rx="9" ry="13" fill="#c2c2c2"/>
+                      <ellipse cx="200" cy="190" rx="46" ry="54" fill="#d4d4d4"/>
+                      <path d="M153 190c-6-48 22-68 48-68 30 0 54 20 47 68-7-26-26-36-48-36-24 0-40 10-47 36z" fill="#0f0f0f"/>
+                      <g class="eyes" fill="#111111"><ellipse cx="183" cy="192" rx="4" ry="5"/><ellipse cx="217" cy="192" rx="4" ry="5"/></g>
+                      <ellipse class="mouth" cx="200" cy="222" rx="10" ry="4" fill="#6b6b6b"/>
+                      <path d="M248 204c6 18-6 32-28 32" fill="none" stroke="#0a0a0a" stroke-width="5" stroke-linecap="round"/>
+                      <circle cx="218" cy="236" r="6" fill="#0a0a0a"/>
+                    </g>
+                  </svg>
+                </div>
+                <div class="lt" data-lt><b>Your name</b><span>Live from your Mac</span></div>
+                <div class="hud"><span class="live">Live</span><span class="tc" data-tc>00:12:04</span></div>
+              </div>
+              <figcaption><b>16:9</b><span>YouTube</span></figcaption>
+            </figure>
+            <figure class="cv cv-v">
+              <div class="cv-inner" data-canvas="v"></div>
+              <figcaption><b>9:16</b><span>Instagram</span></figcaption>
+            </figure>
+          </div>
+
+          <div class="feed" aria-hidden="true">
+            <div class="feed-progress"><i data-progress></i></div>
+            <div class="feed-col">
+              <p class="feed-label"><svg><use href="#i-mic"/></svg>You said <span class="lvl"><i></i><i></i><i></i><i></i><i></i></span></p>
+              <p class="feed-quote" data-heard>“Let me share my screen and open the config.”</p>
+            </div>
+            <div class="feed-col">
+              <p class="feed-label">AI director <span class="mode">Auto</span></p>
+              <p class="feed-did" data-did><svg><use href="#i-arrow"/></svg><span>Screen + camera bubble</span></p>
+              <p class="feed-undo" data-undo><kbd>⌃</kbd><kbd>⌥</kbd><kbd>⌘</kbd><kbd>U</kbd><span>undoes the last change</span></p>
+            </div>
+            <div class="feed-col feed-pv">
+              <p class="feed-label">Presenter view <span class="only">only you</span></p>
+              <ol class="topics" data-topics>
+                <li class="done">Welcome</li>
+                <li class="now">My setup</li>
+                <li>The plan</li>
+                <li>The numbers</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The studio -->
+    <section class="section" id="studio" aria-labelledby="studio-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">The studio</p>
+          <h2 id="studio-title">One show, two formats at once.</h2>
+          <p class="section-lead">
+            Framecast renders a 16:9 and a 9:16 canvas on the same clock, so your landscape stream and your vertical
+            one are the same show, frame for frame. Switch a scene and both change, each laid out for its own shape.
+            Record them side by side, or send each one to its own destinations.
+          </p>
+        </div>
+
+        <div class="gallery reveal" data-tabs>
+          <div class="tabs" role="tablist" aria-label="Screenshots">
+            <button type="button" role="tab" id="tab-both" aria-controls="shot-both" aria-selected="true">Both canvases</button>
+            <button type="button" role="tab" id="tab-guests" aria-controls="shot-guests" aria-selected="false" tabindex="-1">Guests</button>
+            <button type="button" role="tab" id="tab-dest" aria-controls="shot-dest" aria-selected="false" tabindex="-1">Destinations</button>
+            <button type="button" role="tab" id="tab-pack" aria-controls="shot-pack" aria-selected="false" tabindex="-1">Creator pack</button>
+            <button type="button" role="tab" id="tab-mixer" aria-controls="shot-mixer" aria-selected="false" tabindex="-1">Mixer</button>
+            <button type="button" role="tab" id="tab-setup" aria-controls="shot-setup" aria-selected="false" tabindex="-1">First launch</button>
+          </div>
+          <div class="window">
+            <figure class="shot" role="tabpanel" id="shot-both" aria-labelledby="tab-both">
+              <img src="assets/img/both-canvases-1600.webp" srcset="assets/img/both-canvases-960.webp 960w, assets/img/both-canvases-1600.webp 1600w" sizes="(min-width: 1200px) 1100px, 100vw" width="1600" height="1000" alt="The Framecast studio window. Scenes are listed on the left. In the middle, the 16:9 canvas shows a code editor with a camera square in the corner, and the 9:16 canvas shows the same screen above a large camera shot. Comments from YouTube, Twitch, X and Instagram are on the right, with Record and Start broadcast buttons along the bottom.">
+              <figcaption>Scenes on the left, both canvases in the middle, comments from every destination on the right.</figcaption>
+            </figure>
+            <figure class="shot" role="tabpanel" id="shot-guests" aria-labelledby="tab-guests" hidden>
+              <img src="assets/img/guests-1600.webp" srcset="assets/img/guests-960.webp 960w, assets/img/guests-1600.webp 1600w" sizes="(min-width: 1200px) 1100px, 100vw" width="1600" height="1000" loading="lazy" alt="The Guests tab with an invite link and a Copy button, an option to ask before letting guests in, and empty Waiting and On stage lists. The canvas shows the Conversation scene with a camera shot and a yellow name tag.">
+              <figcaption>Guests join from a browser. You let each one in, then put them on air.</figcaption>
+            </figure>
+            <figure class="shot" role="tabpanel" id="shot-dest" aria-labelledby="tab-dest" hidden>
+              <img src="assets/img/destinations-1600.webp" srcset="assets/img/destinations-960.webp 960w, assets/img/destinations-1600.webp 1600w" sizes="(min-width: 1200px) 1100px, 100vw" width="1600" height="1000" loading="lazy" alt="The Destinations sheet. A local RTMP check is switched on. Below it, a form adds a YouTube destination with a server URL, a stream key field and a Horizontal canvas picker. Tabs offer YouTube, Twitch, X, Instagram and Custom.">
+              <figcaption>Add YouTube, Twitch, X, Instagram or any RTMP/RTMPS server. Keys go in the Keychain.</figcaption>
+            </figure>
+            <figure class="shot" role="tabpanel" id="shot-pack" aria-labelledby="tab-pack" hidden>
+              <img src="assets/img/creator-pack-1600.webp" srcset="assets/img/creator-pack-960.webp 960w, assets/img/creator-pack-1600.webp 1600w" sizes="(min-width: 1200px) 1100px, 100vw" width="1600" height="1000" loading="lazy" alt="The Add to scene sheet open on Creator pack, showing Starting soon, Be right back and Thanks for watching cards with countdowns, in a dark Obsidian style and a light Paper style.">
+              <figcaption>The creator pack: intro, break and outro cards with a live countdown, in four styles.</figcaption>
+            </figure>
+            <figure class="shot" role="tabpanel" id="shot-mixer" aria-labelledby="tab-mixer" hidden>
+              <img src="assets/img/mixer-1600.webp" srcset="assets/img/mixer-960.webp 960w, assets/img/mixer-1600.webp 1600w" sizes="(min-width: 1200px) 1100px, 100vw" width="1600" height="1000" loading="lazy" alt="The Mixer tab with level meters and faders for the microphone and the Mac's desktop audio, and an output section with master and headphone levels and a peak limit.">
+              <figcaption>The mixer: everything you hear on air, with a peak limit on the output.</figcaption>
+            </figure>
+            <figure class="shot" role="tabpanel" id="shot-setup" aria-labelledby="tab-setup" hidden>
+              <img src="assets/img/first-launch-1600.webp" srcset="assets/img/first-launch-960.webp 960w, assets/img/first-launch-1600.webp 1600w" sizes="(min-width: 1200px) 1100px, 100vw" width="1600" height="1000" loading="lazy" alt="The first-launch screen asking what Framecast may use: camera, microphone, and screen and system audio, each marked Allowed. Steps on the left read Access, Camera and mic, Formats, and Ready.">
+              <figcaption>First launch walks you through permissions, devices and formats.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section section-alt" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">How the AI director works</p>
+          <h2 id="how-title">Write a brief. Go live. Talk.</h2>
+          <p class="section-lead">You don't need a script, and you don't need a hand on the switcher. Here's what happens between your notes and the stream.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step reveal">
+            <div class="step-art" aria-hidden="true">
+              <svg viewBox="0 0 280 150">
+                <rect class="a-card" x="54" y="14" width="172" height="122" rx="12"/>
+                <rect class="a-ink" x="72" y="32" width="56" height="10" rx="5"/>
+                <rect class="a-soft" x="72" y="56" width="132" height="7" rx="3.5"/>
+                <rect class="a-soft" x="72" y="72" width="112" height="7" rx="3.5"/>
+                <rect class="a-soft" x="72" y="88" width="124" height="7" rx="3.5"/>
+                <rect class="a-soft" x="72" y="104" width="70" height="7" rx="3.5"/>
+                <rect class="a-accent a-blink" x="146" y="101" width="3" height="13" rx="1.5"/>
+              </svg>
+            </div>
+            <span class="step-n">01</span>
+            <h3>Write a brief</h3>
+            <p>In Rundown › New show, jot down your topics, what you want people to take away and a few lines you might say. Not a script.</p>
+          </li>
+          <li class="step reveal">
+            <div class="step-art" aria-hidden="true">
+              <svg viewBox="0 0 280 150">
+                <rect class="a-card" x="20" y="18" width="104" height="114" rx="12"/>
+                <circle class="a-accent" cx="38" cy="42" r="5"/><rect class="a-soft" x="50" y="38" width="58" height="8" rx="4"/>
+                <circle class="a-accent" cx="38" cy="68" r="5"/><rect class="a-soft" x="50" y="64" width="48" height="8" rx="4"/>
+                <circle class="a-mint" cx="38" cy="94" r="5"/><rect class="a-soft" x="50" y="90" width="54" height="8" rx="4"/>
+                <rect class="a-card" x="138" y="18" width="122" height="52" rx="10"/>
+                <path class="a-route" d="M152 56c16 0 18-22 36-22s20 12 36 12 18-18 26-18"/>
+                <rect class="a-card" x="138" y="80" width="56" height="52" rx="10"/>
+                <rect class="a-accent" x="148" y="110" width="8" height="14" rx="2"/><rect class="a-accent" x="160" y="100" width="8" height="24" rx="2"/><rect class="a-mint" x="172" y="92" width="8" height="32" rx="2"/>
+                <rect class="a-card" x="204" y="80" width="56" height="52" rx="10"/>
+                <path class="a-gauge" d="M216 118a16 16 0 0 1 32 0"/><path class="a-needle" d="M232 118l9-12"/>
+              </svg>
+            </div>
+            <span class="step-n">02</span>
+            <h3>Claude prepares the show</h3>
+            <p>Hand the brief to Claude Desktop or Claude Code on your own Claude plan. It writes the outline and makes the visuals: roadmaps, bar charts, gauges, checklists, cards and reference pictures, drawn by Framecast in your show's style.</p>
+          </li>
+          <li class="step reveal">
+            <div class="step-art" aria-hidden="true">
+              <svg viewBox="0 0 280 150">
+                <circle class="a-card" cx="62" cy="75" r="34"/>
+                <g transform="translate(44 57) scale(1.5)"><use href="#i-mic" class="a-ink-stroke" width="24" height="24"/></g>
+                <g class="a-wave">
+                  <rect x="118" y="62" width="7" height="26" rx="3.5"/><rect x="132" y="48" width="7" height="54" rx="3.5"/><rect x="146" y="56" width="7" height="38" rx="3.5"/>
+                  <rect x="160" y="40" width="7" height="70" rx="3.5"/><rect x="174" y="54" width="7" height="42" rx="3.5"/><rect x="188" y="64" width="7" height="22" rx="3.5"/>
+                  <rect x="202" y="50" width="7" height="50" rx="3.5"/><rect x="216" y="60" width="7" height="30" rx="3.5"/><rect x="230" y="66" width="7" height="18" rx="3.5"/>
+                </g>
+              </svg>
+            </div>
+            <span class="step-n">03</span>
+            <h3>Go live and talk</h3>
+            <p>Turn on Listen and pick Auto. Speech recognition runs on your Mac. Every 6 seconds while you talk, a small model on your Claude or OpenAI key reads the outline and the last 90 seconds of what you said, as text. About $0.10–0.50 per show-hour.</p>
+          </li>
+          <li class="step reveal">
+            <div class="step-art" aria-hidden="true">
+              <svg viewBox="0 0 280 150">
+                <rect class="a-card" x="18" y="34" width="100" height="62" rx="10"/>
+                <circle class="a-soft" cx="68" cy="58" r="11"/><path class="a-soft" d="M48 96c3-14 10-20 20-20s17 6 20 20z"/>
+                <path class="a-arrow" d="M128 65h22m-7-7 7 7-7 7"/>
+                <rect class="a-card" x="160" y="34" width="100" height="62" rx="10"/>
+                <path class="a-route" d="M172 80c10 0 12-16 24-16s12 8 22 8"/>
+                <circle class="a-mint-fill" cx="242" cy="82" r="11"/>
+                <g class="a-keys"><rect x="78" y="112" width="26" height="24" rx="6"/><rect x="108" y="112" width="26" height="24" rx="6"/><rect x="138" y="112" width="26" height="24" rx="6"/><rect x="168" y="112" width="26" height="24" rx="6"/></g>
+                <g class="a-keytext"><text x="91" y="129">⌃</text><text x="121" y="129">⌥</text><text x="151" y="129">⌘</text><text x="181" y="129">U</text></g>
+              </svg>
+            </div>
+            <span class="step-n">04</span>
+            <h3>It switches, you stay in charge</h3>
+            <p>It finds the topic you're on, even if you jump around, ticks off what you've covered and puts up the matching graphic with a fresh look. ⌃⌥⌘U undoes the last change. Suggest mode asks first.</p>
+          </li>
+        </ol>
+
+        <div class="notes">
+          <div class="note reveal">
+            <svg class="note-icon" aria-hidden="true"><use href="#i-eye"/></svg>
+            <h3>Only you see your notes</h3>
+            <p>The presenter view lists your topics and ticks them off as you cover them. It stays out of the stream and out of other apps' screen captures.</p>
+          </div>
+          <div class="note reveal">
+            <svg class="note-icon" aria-hidden="true"><use href="#i-director"/></svg>
+            <h3>Have a script instead?</h3>
+            <p>Framecast splits it into parts, each starting with a cue line. Say the cue and it switches, or suggests the switch. The prompter follows your voice in large type.</p>
+          </div>
+          <div class="note reveal">
+            <svg class="note-icon" aria-hidden="true"><use href="#i-mic"/></svg>
+            <h3>Speaks Hinglish</h3>
+            <p>Listen can follow English and Hindi mixed in the same sentence. The Hindi model downloads from Apple once.</p>
+          </div>
+        </div>
+        <p class="fine reveal">Following your voice needs macOS 26 or later. On macOS 14 and 15 you can still move through a show by hand with ⌃⌥⌘T.</p>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" id="features" aria-labelledby="features-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Features</p>
+          <h2 id="features-title">Everything in the studio</h2>
+          <p class="section-lead">All of it is in the free download. No account, no subscription, no paywall.</p>
+        </div>
+
+        <div class="bento">
+          <article class="tile tile-wide tile-canvases reveal">
+            <div class="tile-text">
+              <svg class="tile-icon" aria-hidden="true"><use href="#i-canvases"/></svg>
+              <h3>Two canvases, one clock</h3>
+              <p>16:9 and 9:16 are rendered together, frame for frame. Drag, resize and snap layers right on the canvas, and undo any edit with ⌘Z.</p>
+            </div>
+            <div class="mini-canvases" aria-hidden="true">
+              <div class="mini mini-h"><span class="mini-cam"></span><span class="mini-tc" data-tc>00:12:04</span></div>
+              <div class="mini mini-v"><span class="mini-cam"></span><span class="mini-tc" data-tc>00:12:04</span></div>
+            </div>
+          </article>
+          <article class="tile reveal">
+            <svg class="tile-icon" aria-hidden="true"><use href="#i-record"/></svg>
+            <h3>Record both shapes</h3>
+            <p>Each canvas goes to its own file, side by side, as MOV, MP4 or MKV. Markers and scene changes become YouTube chapters, and Clip saves the last 30 seconds in both shapes.</p>
+          </article>
+
+          <article class="tile reveal">
+            <svg class="tile-icon" aria-hidden="true"><use href="#i-stream"/></svg>
+            <h3>Stream to RTMP and RTMPS</h3>
+            <p>Send each canvas wherever you like. Stream keys stay in your Mac's Keychain, and a pre-flight check tests sound, cameras and disk space first.</p>
+            <ul class="chips" aria-label="Destinations">
+              <li>YouTube</li><li>Twitch</li><li>X</li><li>Instagram</li><li>Any RTMP/RTMPS server</li>
+            </ul>
+          </article>
+          <article class="tile reveal">
+            <svg class="tile-icon" aria-hidden="true"><use href="#i-layouts"/></svg>
+            <h3>Layouts and 60 backgrounds</h3>
+            <p>Camera, camera bubble, screen with camera, guest panels and more. Pick from 60 backgrounds, from aurora and neon to rooms and nature.</p>
+            <div class="swatches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </article>
+          <article class="tile reveal">
+            <svg class="tile-icon" aria-hidden="true"><use href="#i-overlay"/></svg>
+            <h3>Overlays and lower thirds</h3>
+            <p>Name tags, headlines, thank-you cards and QR codes animate in over any scene, each on its own shortcut. The creator pack adds intro, break and outro cards with a live countdown.</p>
+          </article>
+
+          <article class="tile tile-wide tile-ai reveal">
+            <div class="tile-text">
+              <svg class="tile-icon" aria-hidden="true"><use href="#i-director"/></svg>
+              <h3>AI rundown and live director</h3>
+              <p>Plan a show from a brief or a rough script, then let the director switch looks and graphics while you talk. It runs on your own Claude or OpenAI key. Claude Desktop and Claude Code can also drive Framecast through a control link that stays on your Mac.</p>
+            </div>
+            <div class="ai-log">
+              <p class="ai-log-head">Every decision is logged in the show's folder</p>
+              <ul aria-label="Example decisions from a test talk">
+                <li><span class="t">0:16</span><span>Price chart</span></li>
+                <li><span class="t">0:25</span><span>Benchmark card</span></li>
+                <li><span class="t">0:30</span><span>Screen + camera for the demo</span></li>
+                <li><span class="t">0:37</span><span>Reference picture</span></li>
+                <li><span class="t">0:46</span><span>Back to camera</span></li>
+              </ul>
+            </div>
+          </article>
+          <article class="tile reveal">
+            <svg class="tile-icon" aria-hidden="true"><use href="#i-eye"/></svg>
+            <h3>Presenter view and prompter</h3>
+            <p>Your topics, ticked off as you go, in a window only you see. The prompter scrolls your script in large type as you speak, and mirrors for teleprompter glass.</p>
+          </article>
+
+          <article class="tile reveal">
+            <svg class="tile-icon" aria-hidden="true"><use href="#i-guests"/></svg>
+            <h3>Guests from a browser</h3>
+            <p>Send a link. Guests open it, check their camera and ask to join, and you let each person in. Run it on your Mac, your Wi-Fi, or anywhere through your own LiveKit Cloud project.</p>
+          </article>
+          <article class="tile reveal">
+            <svg class="tile-icon" aria-hidden="true"><use href="#i-chat"/></svg>
+            <h3>Live chat on screen</h3>
+            <p>Comments land in one list. Click one to put it on screen. YouTube and Twitch chat use a free app ID you register yourself.</p>
+          </article>
+          <article class="tile reveal">
+            <svg class="tile-icon" aria-hidden="true"><use href="#i-lock"/></svg>
+            <h3>All on your Mac</h3>
+            <p>No account, no analytics, no update checks. It only connects where you point it: your stream destinations, and the AI, chat or guest services you turn on.</p>
+          </article>
+        </div>
+
+        <div class="also reveal">
+          <h3>Also in there</h3>
+          <ul class="chips chips-lg">
+            <li>Preview a scene before it goes on air</li>
+            <li>Undo and redo for every edit</li>
+            <li>Pre-flight check</li>
+            <li>Video, and music that dips when you talk</li>
+            <li>Sound pad</li>
+            <li>Filters, crop and camera LUTs</li>
+            <li>Markers and YouTube chapters</li>
+            <li>Clip the last 30 seconds</li>
+            <li>Rehearsal with missed-cue fixes</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Open source -->
+    <section class="section section-alt" id="open-source" aria-labelledby="oss-title">
+      <div class="wrap">
+        <div class="oss">
+          <div class="oss-text reveal">
+            <p class="eyebrow">Open source</p>
+            <h2 id="oss-title">MIT licensed. Every line is on GitHub.</h2>
+            <p class="section-lead">
+              Read the code, build it yourself, change what you don't like. Framecast has no server of its own.
+              It only connects where you point it, and you can check that in the code.
+            </p>
+            <div class="cta-row cta-left">
+              <a class="btn btn-primary" href="https://github.com/DhananjaySarathe/framecast-studio">
+                <svg aria-hidden="true"><use href="#i-github"/></svg>View the code
+              </a>
+              <a class="btn btn-ghost" href="https://github.com/DhananjaySarathe/framecast-studio/blob/main/LICENSE">Read the license</a>
+            </div>
+          </div>
+          <div class="terminal reveal">
+            <div class="terminal-bar">
+              <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="terminal-title">Build it yourself</span>
+              <button class="copy" type="button" data-copy="git clone https://github.com/DhananjaySarathe/framecast-studio&#10;cd framecast-studio&#10;./scripts/build_app.sh&#10;open build/Framecast.app">
+                <svg aria-hidden="true"><use href="#i-copy"/></svg><span data-copy-label>Copy</span>
+              </button>
+            </div>
+<pre><code><span class="p" aria-hidden="true">$ </span>git clone https://github.com/DhananjaySarathe/framecast-studio
+<span class="p" aria-hidden="true">$ </span>cd framecast-studio
+<span class="p" aria-hidden="true">$ </span>./scripts/build_app.sh
+<span class="p" aria-hidden="true">$ </span>open build/Framecast.app</code></pre>
+            <p class="terminal-note">Needs the Xcode Command Line Tools (Swift 6). Full Xcode isn't needed.</p>
+          </div>
+        </div>
+
+        <div class="data reveal">
+          <h3>Where your data goes</h3>
+          <dl class="data-list">
+            <div><dt>Your streams</dt><dd>The RTMP/RTMPS servers you add, and nowhere else.</dd></div>
+            <div><dt>Following your voice</dt><dd>Nowhere. Apple's speech recognition runs on your Mac.</dd></div>
+            <div><dt>AI planning and the live director</dt><dd>Anthropic or OpenAI, with your own key, as text, and only when you turn them on.</dd></div>
+            <div><dt>Guests</dt><dd>Your Mac, your Wi-Fi, or your own LiveKit Cloud project. You choose.</dd></div>
+            <div><dt>Chat (optional)</dt><dd>Google or Twitch, through an app ID you register.</dd></div>
+            <div><dt>Upload speed test</dt><dd>speed.cloudflare.com, only when you click it.</dd></div>
+            <div><dt>Stream keys and API keys</dt><dd>Your Mac's Keychain.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- Download -->
+    <section class="section" id="download" aria-labelledby="download-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Download</p>
+          <h2 id="download-title">Get Framecast for Mac</h2>
+          <p class="section-lead">Free. It runs on your Mac, with no account and no tracking.</p>
+        </div>
+
+        <div class="dl reveal">
+          <div class="dl-main">
+            <img class="dl-icon" src="assets/img/icon-256.png" width="112" height="112" alt="Framecast app icon">
+            <p class="dl-name">Framecast <span>1.0.0</span></p>
+            <!-- Installer: always the latest GitHub release (the hero button uses the same link). -->
+            <a class="btn btn-primary btn-xl" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link>
+              <svg aria-hidden="true"><use href="#i-download"/></svg>
+              <span class="btn-stack"><span>Download for Mac</span><small>Framecast.dmg · 71 MB</small></span>
+            </a>
+            <dl class="specs">
+              <div><dt>Needs</dt><dd>macOS 14 Sonoma or later</dd></div>
+              <div><dt>Runs on</dt><dd>Apple silicon and Intel Macs</dd></div>
+              <div><dt>Price</dt><dd>Free, MIT license</dd></div>
+            </dl>
+            <div class="hash">
+              <div class="hash-head">
+                <span>SHA-256</span>
+                <button class="copy" type="button" data-copy="00432793fd93e0367f47147b74931e91e758782c9da070085bc4e4700a120220">
+                  <svg aria-hidden="true"><use href="#i-copy"/></svg><span data-copy-label>Copy</span>
+                </button>
+              </div>
+              <code class="hash-value">00432793fd93e0367f47147b74931e91e758782c9da070085bc4e4700a120220</code>
+              <p>To check your copy, run <code>shasum -a 256 ~/Downloads/Framecast.dmg</code> in Terminal and compare.</p>
+            </div>
+          </div>
+
+          <div class="dl-steps">
+            <h3>Opening it the first time</h3>
+            <p class="dl-why">Framecast isn't signed with a paid Apple developer account, so macOS asks you to confirm once. After that it opens like any other app.</p>
+            <ol class="install">
+              <li><span class="n">1</span><div><b>Drag Framecast into Applications.</b> Open the DMG and drop the app on the Applications folder.</div></li>
+              <li><span class="n">2</span><div><b>Double-click Framecast.</b> macOS says it can't verify the app. That's expected.</div></li>
+              <li><span class="n">3</span><div><b>Allow it once.</b>
+                <div class="os-split">
+                  <div class="os">
+                    <p class="os-name">macOS 15 or later</p>
+                    <p>Open System Settings › Privacy &amp; Security, scroll down to Security and click <b>Open Anyway</b> next to Framecast. Confirm with your password or Touch ID, then click Open.</p>
+                  </div>
+                  <div class="os">
+                    <p class="os-name">macOS 14 Sonoma</p>
+                    <p>Control-click Framecast in Applications, choose <b>Open</b>, then click <b>Open</b> again.</p>
+                  </div>
+                </div>
+              </div></li>
+              <li><span class="n">4</span><div><b>Allow the camera, mic and screen</b> when Framecast first needs them. After you allow Screen Recording, quit and reopen Framecast.</div></li>
+            </ol>
+            <p class="fine">Following your voice needs macOS 26 or later. Everything else works on macOS 14 and up. Prefer to build it yourself? <a href="https://github.com/DhananjaySarathe/framecast-studio">The source is on GitHub.</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-brand">
+        <a class="brand" href="#top"><svg class="mark" viewBox="100 100 824 824" width="24" height="24" aria-hidden="true" focusable="false"><rect class="mark-body" x="100" y="100" width="824" height="824" rx="185"/><path class="mark-line" d="M215 334V215h119M690 215h119v119M215 690v119h119M690 809h119V690" stroke-width="46"/><rect class="mark-line" x="284" y="433" width="368" height="207" rx="26" stroke-width="40"/><rect class="mark-line mark-front" x="536" y="299" width="194" height="344" rx="26" stroke-width="40"/><circle class="mark-dot" cx="723" cy="301" r="42"/></svg><span>Framecast</span></a>
+        <p>A free, open-source live studio for macOS. Made by <a href="https://github.com/DhananjaySarathe">DhananjaySarathe</a>.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="https://github.com/DhananjaySarathe/framecast-studio">GitHub</a>
+        <a href="https://github.com/DhananjaySarathe/framecast-studio/blob/main/LICENSE">MIT license</a>
+        <a href="#download">Download</a>
+      </nav>
+      <p class="footer-note">This site sets no cookies and loads nothing from other servers.</p>
+    </div>
+  </footer>
+  <p class="sr-only" aria-live="polite" data-announce></p>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="100 100 824 824">
+  <!-- Framecast's app icon (Sources/FramecastEngine/Brand/AppIcon.swift), redrawn as SVG -->
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#29215c"/>
+      <stop offset="1" stop-color="#0a0a17"/>
+    </linearGradient>
+    <radialGradient id="g" cx="512" cy="512" r="453" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7d6bff" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#7d6bff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="url(#b)"/>
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="url(#g)"/>
+  <path d="M215 334V215h119M690 215h119v119M215 690v119h119M690 809h119V690" fill="none" stroke="#7d6bff" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="284" y="433" width="368" height="207" rx="26" fill="#7d6bff" fill-opacity=".22" stroke="#7d6bff" stroke-width="30"/>
+  <rect x="536" y="299" width="194" height="344" rx="26" fill="#ccfaf2" fill-opacity=".16" stroke="#e6e0ff" stroke-width="30"/>
+  <circle cx="723" cy="301" r="36" fill="#f04f4a"/>
+</svg>
