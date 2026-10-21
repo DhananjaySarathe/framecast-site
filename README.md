@@ -4,14 +4,15 @@ The landing page for [Framecast](https://github.com/DhananjaySarathe/framecast-s
 live-streaming studio for macOS.
 
 It's a plain static site: one HTML page, one stylesheet, two small scripts and a few images. No build step, no
-dependencies, no cookies, no analytics, and nothing loaded from other servers (system fonts only). A
-Content-Security-Policy in `index.html` keeps it that way.
+dependencies, no cookies, no analytics, and nothing loaded from other servers (system fonts only). The one
+exception is the demo video: it shows a local poster, and YouTube's player (from youtube-nocookie.com) loads only
+when someone presses play. A Content-Security-Policy in `index.html` allows that one frame and nothing else.
 
 ```
 index.html            the page
 assets/css/site.css   styles (light by default; the toggle switches to dark)
 assets/js/theme.js    applies a saved light/dark choice before the page paints
-assets/js/site.js     hero animation, screenshot tabs, copy buttons, scroll reveal
+assets/js/site.js     hero animation, demo video, screenshot tabs, copy buttons, scroll reveal
 assets/img/           screenshots (WebP), app icon, favicon
 ```
 
@@ -42,6 +43,11 @@ What does change with a new version (search `index.html` for each):
 - the size, `71 MB` (hero line and download button)
 - the SHA-256 (download card: shown text and the Copy button's `data-copy`)
 - the macOS requirement, if it moves from macOS 14
+
+## The demo video
+
+The Demo section plays https://youtu.be/71M55RDe9Cg. To change it, replace the video ID `71M55RDe9Cg` in
+`index.html` (it's in the poster link's `href` and `data-video`).
 
 ## Hosting
 

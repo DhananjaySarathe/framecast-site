@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self'; script-src 'self'; frame-src https://www.youtube-nocookie.com; base-uri 'none'; form-action 'none'">
   <title>Framecast: a free live studio for Mac with an AI director</title>
   <meta name="description" content="Framecast is a free, open-source macOS app for live streaming and recording. It renders 16:9 and 9:16 at once, and an AI director switches layouts and graphics as you talk.">
   <meta name="color-scheme" content="light">
@@ -78,6 +78,7 @@
         <span>Framecast</span>
       </a>
       <nav class="nav-links" aria-label="Sections">
+        <a href="#demo">Demo</a>
         <a href="#studio">Studio</a>
         <a href="#how">How it works</a>
         <a href="#features">Features</a>
@@ -255,6 +256,25 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Demo video: a local poster until someone presses play, then the YouTube (no-cookie) player. -->
+    <section class="section section-alt" id="demo" aria-labelledby="demo-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Demo</p>
+          <h2 id="demo-title">Watch it in action.</h2>
+          <p class="section-lead">Framecast and its AI director running a live stream.</p>
+        </div>
+        <div class="video reveal">
+          <a class="video-poster" href="https://www.youtube.com/watch?v=71M55RDe9Cg" data-video="71M55RDe9Cg" aria-label="Play the Framecast demo video">
+            <img src="assets/img/both-canvases-1600.webp" srcset="assets/img/both-canvases-960.webp 960w, assets/img/both-canvases-1600.webp 1600w" sizes="(min-width: 1200px) 1100px, 100vw" width="1600" height="1000" loading="lazy" alt="">
+            <span class="video-play" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
+            <span class="video-caption" aria-hidden="true">Framecast: an AI that runs your live stream</span>
+          </a>
+        </div>
+        <p class="fine reveal">Plays from YouTube. Nothing loads from YouTube until you press play.</p>
       </div>
     </section>
 
@@ -638,7 +658,7 @@
         <a href="https://github.com/DhananjaySarathe/framecast-studio/blob/main/LICENSE">MIT license</a>
         <a href="#download">Download</a>
       </nav>
-      <p class="footer-note">This site sets no cookies and loads nothing from other servers.</p>
+      <p class="footer-note">This site sets no cookies and loads nothing from other servers, except YouTube once you press play on the demo.</p>
     </div>
   </footer>
   <p class="sr-only" aria-live="polite" data-announce></p>

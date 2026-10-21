@@ -104,6 +104,22 @@
     }
   }
 
+  // The demo shows a local poster; YouTube's player (no-cookie domain) only loads when someone presses play.
+  function setupVideo() {
+    for (const poster of $$("[data-video]")) {
+      poster.addEventListener("click", (e) => {
+        e.preventDefault();
+        const frame = document.createElement("iframe");
+        frame.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(poster.dataset.video) + "?autoplay=1&rel=0&playsinline=1";
+        frame.title = "Framecast demo video";
+        frame.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+        frame.referrerPolicy = "strict-origin-when-cross-origin";
+        poster.replaceWith(frame);
+        frame.focus();
+      });
+    }
+  }
+
   function setupReveal() {
     const items = $$(".reveal");
     if (reduceMotion || !("IntersectionObserver" in window)) {
@@ -293,6 +309,7 @@
   setupNav();
   setupCopy();
   setupTabs();
+  setupVideo();
   setupReveal();
   setupStage();
 })();
