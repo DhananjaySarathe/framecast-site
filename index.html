@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self'; script-src 'self'; frame-src https://www.youtube-nocookie.com; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self'; script-src 'self'; frame-src https://www.youtube-nocookie.com; connect-src https://api-js.mixpanel.com https://api-eu.mixpanel.com https://api-in.mixpanel.com; base-uri 'none'; form-action 'none'">
   <title>Framecast: a free live studio for Mac with an AI director</title>
   <meta name="description" content="Framecast is a free, open-source macOS app for live streaming and recording. It renders 16:9 and 9:16 at once, and an AI director switches layouts and graphics as you talk.">
   <meta name="color-scheme" content="light">
@@ -16,6 +16,7 @@
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="stylesheet" href="assets/css/site.css">
   <script src="assets/js/theme.js"></script>
+  <script src="assets/js/analytics.js" defer></script>
   <script src="assets/js/site.js" defer></script>
 </head>
 <body>
@@ -69,30 +70,43 @@
     <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6.5" y="5" width="4" height="14" rx="1.2"/><rect x="13.5" y="5" width="4" height="14" rx="1.2"/></symbol>
     <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.6v12.8a1 1 0 0 0 1.5.86l10.4-6.4a1 1 0 0 0 0-1.72L9.5 4.74A1 1 0 0 0 8 5.6z"/></symbol>
     <symbol id="i-github" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></symbol>
   </svg>
 
   <header class="nav" data-nav>
+    <div class="announce">
+      <div class="wrap announce-in">
+        <p class="announce-text"><span class="announce-long"><b>Framecast is just getting started.</b> Big updates land over the next few weeks. Follow along:</span><span class="announce-short"><b>Big updates coming.</b> Follow along:</span></p>
+        <div class="announce-links">
+          <a href="https://github.com/DhananjaySarathe/framecast-studio" data-track="Social Click" data-track-network="github" data-track-where="top bar" aria-label="Star Framecast on GitHub"><svg aria-hidden="true"><use href="#i-github"/></svg><span>Star on GitHub</span></a>
+          <a href="https://x.com/dhananjay11211" data-track="Social Click" data-track-network="x" data-track-where="top bar" aria-label="Follow on X"><svg aria-hidden="true"><use href="#i-x"/></svg><span>Follow on X</span></a>
+          <a href="https://www.youtube.com/@ChilledBeer?sub_confirmation=1" data-track="Social Click" data-track-network="youtube" data-track-where="top bar" aria-label="Subscribe on YouTube"><svg aria-hidden="true"><use href="#i-youtube"/></svg><span>Subscribe on YouTube</span></a>
+        </div>
+      </div>
+    </div>
     <div class="wrap nav-in">
       <a class="brand" href="#top" aria-label="Framecast, back to top">
         <svg class="mark" viewBox="100 100 824 824" width="28" height="28" aria-hidden="true" focusable="false"><rect class="mark-body" x="100" y="100" width="824" height="824" rx="185"/><path class="mark-line" d="M215 334V215h119M690 215h119v119M215 690v119h119M690 809h119V690" stroke-width="46"/><rect class="mark-line" x="284" y="433" width="368" height="207" rx="26" stroke-width="40"/><rect class="mark-line mark-front" x="536" y="299" width="194" height="344" rx="26" stroke-width="40"/><circle class="mark-dot" cx="723" cy="301" r="42"/></svg>
         <span>Framecast</span>
       </a>
       <nav class="nav-links" aria-label="Sections">
-        <a href="#demo">Demo</a>
-        <a href="#studio">Studio</a>
-        <a href="#how">How it works</a>
-        <a href="#features">Features</a>
-        <a href="#open-source">Open source</a>
+        <a href="#demo" data-track="Nav Click">Demo</a>
+        <a href="#studio" data-track="Nav Click">Studio</a>
+        <a href="#how" data-track="Nav Click">How it works</a>
+        <a href="#features" data-track="Nav Click">Features</a>
+        <a href="guests.html" data-track="Nav Click">Guests</a>
+        <a href="#open-source" data-track="Nav Click">Open source</a>
       </nav>
       <div class="nav-actions">
-        <a class="icon-btn" href="https://github.com/DhananjaySarathe/framecast-studio" aria-label="Framecast on GitHub">
+        <a class="icon-btn" href="https://github.com/DhananjaySarathe/framecast-studio" aria-label="Framecast on GitHub" data-track="GitHub Click" data-track-where="nav">
           <svg aria-hidden="true"><use href="#i-github"/></svg>
         </a>
-        <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch to dark mode">
+        <button class="icon-btn" type="button" data-theme-toggle data-track="Theme Toggle" aria-label="Switch to dark mode">
           <svg class="if-light" aria-hidden="true"><use href="#i-moon"/></svg>
           <svg class="if-dark" aria-hidden="true"><use href="#i-sun"/></svg>
         </button>
-        <a class="btn btn-primary btn-sm" href="#download">Download</a>
+        <a class="btn btn-primary btn-sm" href="#download" data-track="Nav Click">Download</a>
       </div>
     </div>
   </header>
@@ -110,10 +124,10 @@
           Don't like a switch? One shortcut takes it back.
         </p>
         <div class="cta-row">
-          <a class="btn btn-primary btn-lg" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link data-show-steps>
+          <a class="btn btn-primary btn-lg" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link data-show-steps data-track="Download Click" data-track-where="hero">
             <svg aria-hidden="true"><use href="#i-download"/></svg>Download for Mac
           </a>
-          <a class="btn btn-ghost btn-lg" href="https://github.com/DhananjaySarathe/framecast-studio">
+          <a class="btn btn-ghost btn-lg" href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="hero">
             <svg aria-hidden="true"><use href="#i-github"/></svg>Source on GitHub
           </a>
         </div>
@@ -268,13 +282,20 @@
           <p class="section-lead">Framecast and its AI director running a live stream.</p>
         </div>
         <div class="video reveal">
-          <a class="video-poster" href="https://www.youtube.com/watch?v=71M55RDe9Cg" data-video="71M55RDe9Cg" aria-label="Play the Framecast demo video">
+          <a class="video-poster" href="https://www.youtube.com/watch?v=71M55RDe9Cg" data-video="71M55RDe9Cg" data-track="Demo Video Play" aria-label="Play the Framecast demo video">
             <img src="assets/img/both-canvases-1600.webp" srcset="assets/img/both-canvases-960.webp 960w, assets/img/both-canvases-1600.webp 1600w" sizes="(min-width: 1200px) 1100px, 100vw" width="1600" height="1000" loading="lazy" alt="">
             <span class="video-play" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
             <span class="video-caption" aria-hidden="true">Framecast: an AI that runs your live stream</span>
           </a>
         </div>
         <p class="fine reveal">Plays from YouTube. Nothing loads from YouTube until you press play.</p>
+        <div class="demo-more reveal">
+          <p><b>Want to see a whole show?</b> Here's a real live stream run with Framecast.</p>
+          <a class="btn btn-ghost" href="https://www.youtube.com/live/WnFP2bDTrdY" target="_blank" rel="noopener" data-track="Live Example Click">
+            <svg aria-hidden="true"><use href="#i-youtube"/></svg>Watch the live stream
+          </a>
+          <p class="demo-version"><span class="v-pill">v1</span>This is version 1, and I'm improving it constantly. Expect a lot to change in the coming weeks.</p>
+        </div>
       </div>
     </section>
 
@@ -293,12 +314,12 @@
 
         <div class="gallery reveal" data-tabs>
           <div class="tabs" role="tablist" aria-label="Screenshots">
-            <button type="button" role="tab" id="tab-both" aria-controls="shot-both" aria-selected="true">Both canvases</button>
-            <button type="button" role="tab" id="tab-guests" aria-controls="shot-guests" aria-selected="false" tabindex="-1">Guests</button>
-            <button type="button" role="tab" id="tab-dest" aria-controls="shot-dest" aria-selected="false" tabindex="-1">Destinations</button>
-            <button type="button" role="tab" id="tab-pack" aria-controls="shot-pack" aria-selected="false" tabindex="-1">Creator pack</button>
-            <button type="button" role="tab" id="tab-mixer" aria-controls="shot-mixer" aria-selected="false" tabindex="-1">Mixer</button>
-            <button type="button" role="tab" id="tab-setup" aria-controls="shot-setup" aria-selected="false" tabindex="-1">First launch</button>
+            <button type="button" role="tab" data-track="Screenshot Tab" id="tab-both" aria-controls="shot-both" aria-selected="true">Both canvases</button>
+            <button type="button" role="tab" data-track="Screenshot Tab" id="tab-guests" aria-controls="shot-guests" aria-selected="false" tabindex="-1">Guests</button>
+            <button type="button" role="tab" data-track="Screenshot Tab" id="tab-dest" aria-controls="shot-dest" aria-selected="false" tabindex="-1">Destinations</button>
+            <button type="button" role="tab" data-track="Screenshot Tab" id="tab-pack" aria-controls="shot-pack" aria-selected="false" tabindex="-1">Creator pack</button>
+            <button type="button" role="tab" data-track="Screenshot Tab" id="tab-mixer" aria-controls="shot-mixer" aria-selected="false" tabindex="-1">Mixer</button>
+            <button type="button" role="tab" data-track="Screenshot Tab" id="tab-setup" aria-controls="shot-setup" aria-selected="false" tabindex="-1">First launch</button>
           </div>
           <div class="window">
             <figure class="shot" role="tabpanel" id="shot-both" aria-labelledby="tab-both">
@@ -505,6 +526,7 @@
             <svg class="tile-icon" aria-hidden="true"><use href="#i-guests"/></svg>
             <h3>Guests from a browser</h3>
             <p>Send a link. Guests open it, check their camera and ask to join, and you let each person in. Run it on your Mac, your Wi-Fi, or anywhere through your own LiveKit Cloud project.</p>
+            <a class="tile-link" href="guests.html" data-track="Guest Setup Click" data-track-where="features">Set up guests from anywhere<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
           </article>
           <article class="tile reveal">
             <svg class="tile-icon" aria-hidden="true"><use href="#i-chat"/></svg>
@@ -547,17 +569,17 @@
               It only connects where you point it, and you can check that in the code.
             </p>
             <div class="cta-row cta-left">
-              <a class="btn btn-primary" href="https://github.com/DhananjaySarathe/framecast-studio">
+              <a class="btn btn-primary" href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="open source">
                 <svg aria-hidden="true"><use href="#i-github"/></svg>View the code
               </a>
-              <a class="btn btn-ghost" href="https://github.com/DhananjaySarathe/framecast-studio/blob/main/LICENSE">Read the license</a>
+              <a class="btn btn-ghost" href="https://github.com/DhananjaySarathe/framecast-studio/blob/main/LICENSE" data-track="License Click" data-track-where="open source">Read the license</a>
             </div>
           </div>
           <div class="terminal reveal">
             <div class="terminal-bar">
               <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
               <span class="terminal-title">Build it yourself</span>
-              <button class="copy" type="button" data-copy="git clone https://github.com/DhananjaySarathe/framecast-studio&#10;cd framecast-studio&#10;./scripts/build_app.sh&#10;open build/Framecast.app">
+              <button class="copy" type="button" data-track="Copy" data-track-what="build commands" data-copy="git clone https://github.com/DhananjaySarathe/framecast-studio&#10;cd framecast-studio&#10;./scripts/build_app.sh&#10;open build/Framecast.app">
                 <svg aria-hidden="true"><use href="#i-copy"/></svg><span data-copy-label>Copy</span>
               </button>
             </div>
@@ -590,7 +612,7 @@
         <div class="section-head reveal">
           <p class="eyebrow">Download</p>
           <h2 id="download-title">Get Framecast for Mac</h2>
-          <p class="section-lead">Free. It runs on your Mac, with no account and no tracking.</p>
+          <p class="section-lead">Free. The app runs on your Mac, with no account and no tracking.</p>
         </div>
 
         <div class="dl reveal">
@@ -598,11 +620,11 @@
             <img class="dl-icon" src="assets/img/icon-256.png" width="112" height="112" alt="Framecast app icon">
             <p class="dl-name">Framecast <span>1.0.0</span></p>
             <!-- Installer: always the latest GitHub release (the hero button uses the same link). -->
-            <a class="btn btn-primary btn-xl" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link>
+            <a class="btn btn-primary btn-xl" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link data-track="Download Click" data-track-where="download section">
               <svg aria-hidden="true"><use href="#i-download"/></svg>
               <span class="btn-stack"><span>Download for Mac</span><small>Framecast.dmg · 71 MB</small></span>
             </a>
-            <p class="dl-alt"><a href="https://github.com/DhananjaySarathe/framecast-studio/releases">All versions and release notes</a></p>
+            <p class="dl-alt"><a href="https://github.com/DhananjaySarathe/framecast-studio/releases" data-track="Release Notes Click">All versions and release notes</a></p>
             <dl class="specs">
               <div><dt>Needs</dt><dd>macOS 14 Sonoma or later</dd></div>
               <div><dt>Runs on</dt><dd>Apple silicon and Intel Macs</dd></div>
@@ -611,7 +633,7 @@
             <div class="hash">
               <div class="hash-head">
                 <span>SHA-256</span>
-                <button class="copy" type="button" data-copy="00432793fd93e0367f47147b74931e91e758782c9da070085bc4e4700a120220">
+                <button class="copy" type="button" data-track="Copy" data-track-what="SHA-256" data-copy="00432793fd93e0367f47147b74931e91e758782c9da070085bc4e4700a120220">
                   <svg aria-hidden="true"><use href="#i-copy"/></svg><span data-copy-label>Copy</span>
                 </button>
               </div>
@@ -640,7 +662,8 @@
               </div></li>
               <li><span class="n">4</span><div><b>Allow the camera, mic and screen</b> when Framecast first needs them. After you allow Screen Recording, quit and reopen Framecast.</div></li>
             </ol>
-            <p class="fine">Following your voice needs macOS 26 or later. Everything else works on macOS 14 and up. Prefer to build it yourself? <a href="https://github.com/DhananjaySarathe/framecast-studio">The source is on GitHub.</a></p>
+            <p class="fine">Following your voice needs macOS 26 or later. Everything else works on macOS 14 and up. Prefer to build it yourself? <a href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="download section">The source is on GitHub.</a></p>
+            <p class="dl-guests"><b>Want guests from anywhere?</b> Host Framecast's guest page once, for free. <a href="guests.html" data-track="Guest Setup Click" data-track-where="download section">Set up remote guests</a></p>
           </div>
         </div>
       </div>
@@ -654,11 +677,14 @@
         <p>A free, open-source live studio for macOS. Made by <a href="https://github.com/DhananjaySarathe">DhananjaySarathe</a>.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
-        <a href="https://github.com/DhananjaySarathe/framecast-studio">GitHub</a>
-        <a href="https://github.com/DhananjaySarathe/framecast-studio/blob/main/LICENSE">MIT license</a>
-        <a href="#download">Download</a>
+        <a href="guests.html" data-track="Guest Setup Click" data-track-where="footer">Remote guests</a>
+        <a href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="footer">GitHub</a>
+        <a href="https://x.com/dhananjay11211" data-track="Social Click" data-track-network="x" data-track-where="footer">X</a>
+        <a href="https://www.youtube.com/@ChilledBeer?sub_confirmation=1" data-track="Social Click" data-track-network="youtube" data-track-where="footer">YouTube</a>
+        <a href="https://github.com/DhananjaySarathe/framecast-studio/blob/main/LICENSE" data-track="License Click" data-track-where="footer">MIT license</a>
+        <a href="#download" data-track="Nav Click">Download</a>
       </nav>
-      <p class="footer-note">This site sets no cookies and loads nothing from other servers, except YouTube once you press play on the demo.</p>
+      <p class="footer-note">No cookies. Anonymous visit and click counts go to Mixpanel. The demo video loads from YouTube only when you press play.</p>
     </div>
   </footer>
   <p class="sr-only" aria-live="polite" data-announce></p>

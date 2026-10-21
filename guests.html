@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self'; script-src 'self'; connect-src https://api-js.mixpanel.com https://api-eu.mixpanel.com https://api-in.mixpanel.com; base-uri 'none'; form-action 'none'">
+  <title>Remote guests: host the Framecast guest page</title>
+  <meta name="description" content="Let guests join your Framecast show from anywhere: download the guest page, put it on Cloudflare Pages for free, connect your LiveKit Cloud project and send invite links.">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-64.png" type="image/png" sizes="64x64">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/analytics.js" defer></script>
+  <script src="assets/js/site.js" defer></script>
+  <script src="assets/js/guests.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11.5M7 10.5l5 5 5-5M4.5 20h15"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5V5A1.5 1.5 0 0 0 14 3.5H5A1.5 1.5 0 0 0 3.5 5v9A1.5 1.5 0 0 0 5 15.5h3.5"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol>
+    <symbol id="i-github" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></symbol>
+  </svg>
+
+  <header class="nav" data-nav>
+    <div class="announce">
+      <div class="wrap announce-in">
+        <p class="announce-text"><span class="announce-long"><b>Framecast is just getting started.</b> Big updates land over the next few weeks. Follow along:</span><span class="announce-short"><b>Big updates coming.</b> Follow along:</span></p>
+        <div class="announce-links">
+          <a href="https://github.com/DhananjaySarathe/framecast-studio" data-track="Social Click" data-track-network="github" data-track-where="top bar" aria-label="Star Framecast on GitHub"><svg aria-hidden="true"><use href="#i-github"/></svg><span>Star on GitHub</span></a>
+          <a href="https://x.com/dhananjay11211" data-track="Social Click" data-track-network="x" data-track-where="top bar" aria-label="Follow on X"><svg aria-hidden="true"><use href="#i-x"/></svg><span>Follow on X</span></a>
+          <a href="https://www.youtube.com/@ChilledBeer?sub_confirmation=1" data-track="Social Click" data-track-network="youtube" data-track-where="top bar" aria-label="Subscribe on YouTube"><svg aria-hidden="true"><use href="#i-youtube"/></svg><span>Subscribe on YouTube</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap nav-in">
+      <a class="brand" href="index.html" aria-label="Framecast home">
+        <svg class="mark" viewBox="100 100 824 824" width="28" height="28" aria-hidden="true" focusable="false"><rect class="mark-body" x="100" y="100" width="824" height="824" rx="185"/><path class="mark-line" d="M215 334V215h119M690 215h119v119M215 690v119h119M690 809h119V690" stroke-width="46"/><rect class="mark-line" x="284" y="433" width="368" height="207" rx="26" stroke-width="40"/><rect class="mark-line mark-front" x="536" y="299" width="194" height="344" rx="26" stroke-width="40"/><circle class="mark-dot" cx="723" cy="301" r="42"/></svg>
+        <span>Framecast</span>
+      </a>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="index.html#demo" data-track="Nav Click">Demo</a>
+        <a href="index.html#studio" data-track="Nav Click">Studio</a>
+        <a href="index.html#how" data-track="Nav Click">How it works</a>
+        <a href="index.html#features" data-track="Nav Click">Features</a>
+        <a href="guests.html" aria-current="page">Guests</a>
+        <a href="index.html#open-source" data-track="Nav Click">Open source</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="icon-btn" href="https://github.com/DhananjaySarathe/framecast-studio" aria-label="Framecast on GitHub" data-track="GitHub Click" data-track-where="nav">
+          <svg aria-hidden="true"><use href="#i-github"/></svg>
+        </a>
+        <button class="icon-btn" type="button" data-theme-toggle data-track="Theme Toggle" aria-label="Switch to dark mode">
+          <svg class="if-light" aria-hidden="true"><use href="#i-moon"/></svg>
+          <svg class="if-dark" aria-hidden="true"><use href="#i-sun"/></svg>
+        </button>
+        <a class="btn btn-primary btn-sm" href="index.html#download" data-track="Nav Click">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="wrap hero-in">
+        <p class="eyebrow">Remote guests</p>
+        <h1 class="page-title">Bring in guests from anywhere.</h1>
+        <p class="lead">
+          Guests join your show from a browser, with nothing to install. For guests outside your Wi-Fi, Framecast
+          needs two things you own: a copy of its guest page on a web host, and a LiveKit Cloud project to carry the
+          video. Both are free, and you set them up once.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary btn-lg" href="downloads/framecast-guest-page.zip" download data-track="Guest Page Download" data-track-where="top">
+            <svg aria-hidden="true"><use href="#i-download"/></svg>Download guest page (.zip)
+          </a>
+          <a class="btn btn-ghost btn-lg" href="#host" data-track="Nav Click">How to host it</a>
+        </div>
+        <p class="meta">114 KB <span aria-hidden="true">·</span> no keys or personal details inside <span aria-hidden="true">·</span> upload it as is</p>
+        <ul class="needs">
+          <li><b>A Cloudflare account</b>Free. Or any host that serves https.</li>
+          <li><b>A LiveKit Cloud project</b>Free plan. Carries the video between you and your guests.</li>
+          <li><b>Framecast 1.0.0</b>On your Mac. <a href="index.html#download" data-track="Nav Click">Download it</a> if you haven't.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section guide-section" aria-label="Set-up steps">
+      <div class="wrap">
+        <ol class="guide">
+          <li class="guide-step reveal" id="download-page">
+            <span class="guide-n" aria-hidden="true">1</span>
+            <div>
+              <h2>Download the guest page</h2>
+              <p>This is the page your guests open from the invite link. It holds no keys: each invite link carries its own short-lived pass after the <code>#</code>, and browsers never send that part to the web host.</p>
+              <div class="file-card">
+                <a class="btn btn-primary" href="downloads/framecast-guest-page.zip" download data-track="Guest Page Download" data-track-where="step 1">
+                  <svg aria-hidden="true"><use href="#i-download"/></svg>Download guest page
+                </a>
+                <p class="file-meta"><b>framecast-guest-page.zip</b> · 114 KB · for Framecast 1.0.0</p>
+              </div>
+              <ul class="files" aria-label="What's in the zip">
+                <li>index.html <span>the guest page</span></li>
+                <li>livekit-client.umd.js <span>LiveKit's open-source client (Apache-2.0)</span></li>
+                <li>LICENSE-livekit-client.txt <span>its license</span></li>
+                <li>_headers <span>privacy and permission headers for Cloudflare and Netlify</span></li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="guide-step reveal" id="host">
+            <span class="guide-n" aria-hidden="true">2</span>
+            <div>
+              <h2>Put it online with Cloudflare Pages</h2>
+              <ol class="substeps">
+                <li>Sign in to the <a href="https://dash.cloudflare.com/" data-track="Cloudflare Click">Cloudflare dashboard</a>, or create a free account.</li>
+                <li>Go to <b>Workers &amp; Pages</b> and choose <b>Create application › Get started › Drag and drop your files</b>.</li>
+                <li>Give the project a name, for example <code>yourname-guests</code>. It becomes part of the address.</li>
+                <li>Drag <b>framecast-guest-page.zip</b> onto the upload area (the unzipped folder works too), then click <b>Deploy site</b>.</li>
+                <li>Copy the address Cloudflare gives you, like <code>https://yourname-guests.pages.dev/</code>. You'll need it in step 4.</li>
+              </ol>
+              <p class="step-note">Cloudflare sometimes renames these menus. If yours look different, look for the option to upload files directly to Pages. Any other host works too, as long as it serves the files over https: Netlify, GitHub Pages or your own server.</p>
+            </div>
+          </li>
+
+          <li class="guide-step reveal" id="livekit">
+            <span class="guide-n" aria-hidden="true">3</span>
+            <div>
+              <h2>Create a LiveKit Cloud project</h2>
+              <p>LiveKit is the open-source video system Framecast uses for guests, and LiveKit Cloud runs it for you. With your own project, the video goes through your account and nobody else's.</p>
+              <ol class="substeps">
+                <li>Sign up at <a href="https://cloud.livekit.io/" data-track="LiveKit Click">cloud.livekit.io</a> (free plan) and create a project.</li>
+                <li>In the project's settings, create an API key.</li>
+                <li>Copy three things: the project URL (<code>wss://…livekit.cloud</code>), the API key (starts with <code>API</code>) and the API secret. The secret is shown only once, so keep this tab open until step 4 is done.</li>
+              </ol>
+            </div>
+          </li>
+
+          <li class="guide-step reveal" id="settings">
+            <span class="guide-n" aria-hidden="true">4</span>
+            <div>
+              <h2>Make your Framecast settings file</h2>
+              <p>Paste the four values below and download the file. What you type stays in this browser tab: it isn't sent anywhere and isn't saved.</p>
+              <form class="env-form" data-env-form autocomplete="off" novalidate>
+                <div class="env-grid">
+                  <div class="field">
+                    <label for="env-url">LiveKit project URL</label>
+                    <input id="env-url" name="LIVEKIT_URL" type="text" inputmode="url" placeholder="wss://your-project.livekit.cloud" spellcheck="false" autocapitalize="off">
+                    <p class="hint" data-hint-for="LIVEKIT_URL">From step 3. Starts with wss://</p>
+                  </div>
+                  <div class="field">
+                    <label for="env-page">Guest page address</label>
+                    <input id="env-page" name="GUEST_PAGE_URL" type="text" inputmode="url" placeholder="https://yourname-guests.pages.dev/" spellcheck="false" autocapitalize="off">
+                    <p class="hint" data-hint-for="GUEST_PAGE_URL">From step 2. Starts with https://</p>
+                  </div>
+                  <div class="field">
+                    <label for="env-key">API key</label>
+                    <input id="env-key" name="LIVEKIT_API_KEY" type="text" placeholder="APIxxxxxxxxxxxx" spellcheck="false" autocapitalize="off">
+                    <p class="hint" data-hint-for="LIVEKIT_API_KEY">Starts with API</p>
+                  </div>
+                  <div class="field">
+                    <label for="env-secret">API secret</label>
+                    <input id="env-secret" name="LIVEKIT_API_SECRET" type="password" placeholder="your-api-secret" spellcheck="false" autocapitalize="off">
+                    <p class="hint" data-hint-for="LIVEKIT_API_SECRET">Shown once when you created the key</p>
+                  </div>
+                </div>
+                <pre class="env-preview" data-env-preview aria-label="Preview of the settings file"></pre>
+                <div class="env-actions">
+                  <button class="btn btn-primary" type="button" data-env-download data-track="Env File Download" disabled>
+                    <svg aria-hidden="true"><use href="#i-download"/></svg>Download framecast-guests.env
+                  </button>
+                  <button class="btn btn-ghost" type="button" data-env-copy data-track="Env File Copy" disabled>
+                    <svg aria-hidden="true"><use href="#i-copy"/></svg><span data-env-copy-label>Copy text</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </li>
+
+          <li class="guide-step reveal" id="connect">
+            <span class="guide-n" aria-hidden="true">5</span>
+            <div>
+              <h2>Load it into Framecast and invite guests</h2>
+              <ol class="substeps">
+                <li>In Framecast, open the <b>Guests</b> tab. Under <b>Who can join</b>, pick <b>Anyone with a link (LiveKit Cloud)</b>.</li>
+                <li>Click <b>Load .env file…</b> and choose <b>framecast-guests.env</b>. Framecast keeps the secret in your Mac's Keychain, so you can delete the file afterwards.</li>
+                <li>Open the guest room, copy the invite link and send it to one guest. Each link lets one person in; a new one appears as soon as it's used.</li>
+                <li>Your guest opens the link, types their name, checks their camera and mic and asks to join. Click <b>Let in</b>, then <b>Put on air</b>.</li>
+              </ol>
+              <p class="step-note">The first time the room opens, macOS may ask whether Framecast can use the secret in your Keychain. Choose <b>Always Allow</b>.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="callout reveal">
+          <b>Only need guests on this Mac or your Wi-Fi?</b> You can skip all of this. In the Guests tab pick
+          <b>This Mac only</b> or <b>People on my Wi-Fi</b>. Those modes run LiveKit on your Mac, so they need it
+          installed once with <code>brew install livekit</code>.
+        </div>
+
+        <div class="data reveal">
+          <h3>Good to know</h3>
+          <dl class="data-list">
+            <div><dt>After updating Framecast</dt><dd>Download the guest page again and upload it in Cloudflare (your project › Create a new deployment), so it matches the app.</dd></div>
+            <div><dt>A Cloudflare error, like 522</dt><dd>Open the project in Cloudflare, check the latest deployment finished, and check the address matches the one in your settings file.</dd></div>
+            <div><dt>Who sees what</dt><dd>The video goes through your LiveKit project, so LiveKit sees your IP address and your guests'. Guests don't see yours. Your keys stay in your Mac's Keychain.</dd></div>
+            <div><dt>Full details</dt><dd>The <a href="https://github.com/DhananjaySarathe/framecast-studio/blob/main/docs/GUESTS.md" data-track="GitHub Click" data-track-where="guests">guest set-up guide</a> on GitHub.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="footer-brand">
+        <a class="brand" href="index.html"><svg class="mark" viewBox="100 100 824 824" width="24" height="24" aria-hidden="true" focusable="false"><rect class="mark-body" x="100" y="100" width="824" height="824" rx="185"/><path class="mark-line" d="M215 334V215h119M690 215h119v119M215 690v119h119M690 809h119V690" stroke-width="46"/><rect class="mark-line" x="284" y="433" width="368" height="207" rx="26" stroke-width="40"/><rect class="mark-line mark-front" x="536" y="299" width="194" height="344" rx="26" stroke-width="40"/><circle class="mark-dot" cx="723" cy="301" r="42"/></svg><span>Framecast</span></a>
+        <p>A free, open-source live studio for macOS. Made by <a href="https://github.com/DhananjaySarathe">DhananjaySarathe</a>.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="index.html" data-track="Nav Click">Home</a>
+        <a href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="footer">GitHub</a>
+        <a href="https://x.com/dhananjay11211" data-track="Social Click" data-track-network="x" data-track-where="footer">X</a>
+        <a href="https://www.youtube.com/@ChilledBeer?sub_confirmation=1" data-track="Social Click" data-track-network="youtube" data-track-where="footer">YouTube</a>
+        <a href="https://github.com/DhananjaySarathe/framecast-studio/blob/main/LICENSE" data-track="License Click" data-track-where="footer">MIT license</a>
+        <a href="index.html#download" data-track="Nav Click">Download</a>
+      </nav>
+      <p class="footer-note">No cookies. Anonymous visit and click counts go to Mixpanel. Nothing you type on this page is sent anywhere.</p>
+    </div>
+  </footer>
+  <p class="sr-only" aria-live="polite" data-announce></p>
+</body>
+</html>
