@@ -631,6 +631,8 @@ h2 { margin: 0 0 18px; font-size: clamp(2rem, 1.15rem + 3.2vw, 3.4rem); line-hei
 .dl-icon { display: block; width: 112px; height: 112px; filter: drop-shadow(0 16px 24px rgba(0, 0, 0, .25)); }
 .dl-name { margin: 8px 0 22px; font-size: 1.55rem; font-weight: 700; letter-spacing: -.03em; }
 .dl-name span { color: var(--faint); font-weight: 500; }
+.dl-alt { margin: 14px 0 0; color: var(--faint); font-size: 13.5px; }
+.dl-alt a { color: var(--muted); }
 .specs { width: 100%; margin: 28px 0 0; }
 .specs div { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-top: 1px solid var(--border); font-size: 14.5px; }
 .specs dt { color: var(--faint); }

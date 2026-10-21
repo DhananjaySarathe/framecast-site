@@ -34,6 +34,8 @@ https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Fr
 That always serves the newest release of framecast-studio, as long as each release has a file named exactly
 `Framecast.dmg`. Nothing on the site needs to change to ship a new build.
 
+Under the main button, "All versions and release notes" links to the releases page.
+
 What does change with a new version (search `index.html` for each):
 
 - the version number, `1.0.0` (hero line and download card)
