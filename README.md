@@ -73,6 +73,7 @@ screen size, language and any `utm_*` tags; Mixpanel adds city, region and count
 | Social Click | Star on GitHub, Follow on X, Subscribe on YouTube | `network`, `where` (top bar, footer) |
 | Guest Page Download | the guest page zip on guests.html | |
 | Guest Setup Click | a link to guests.html | `where` |
+| Guest Step | a step in the guest mode walkthrough on the home page | `step` (download, host, invite) |
 | Env File Download / Env File Copy | the settings-file buttons on guests.html (values are never sent) | |
 | GitHub Click, License Click, Release Notes Click | those links | `where` |
 | Cloudflare Click, LiveKit Click | sign-up links on guests.html | |

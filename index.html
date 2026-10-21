@@ -299,6 +299,83 @@
       </div>
     </section>
 
+    <!-- Guest mode: remote guests need one extra file. A short animated walkthrough, with the download. -->
+    <section class="section gm-section" id="guest-mode" aria-labelledby="gm-title">
+      <div class="wrap gm-wrap">
+        <div class="gm-copy reveal">
+          <p class="gm-pill"><svg aria-hidden="true"><use href="#i-guests"/></svg>Guest mode</p>
+          <h2 id="gm-title">Bring guests on from anywhere.</h2>
+          <p class="gm-lead">It needs one extra file. Three steps, all free.</p>
+          <div class="gm-actions">
+            <a class="btn btn-primary" href="downloads/framecast-guest-page.zip" download data-track="Guest Page Download" data-track-where="home guest mode">
+              <svg aria-hidden="true"><use href="#i-download"/></svg>Download guest page
+            </a>
+            <a class="btn btn-ghost" href="guests.html" data-track="Guest Setup Click" data-track-where="home guest mode">Full guide<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+          <p class="gm-foot">Guests only on your Wi-Fi? You can skip this.</p>
+        </div>
+
+        <div class="gs reveal" data-gs>
+          <div class="gs-top">
+            <div class="gs-steps">
+              <button type="button" class="gs-step" data-track="Guest Step" data-track-step="download" aria-current="step"><span class="gs-n">1</span><span class="gs-label">Download</span><i class="gs-prog"></i></button>
+              <button type="button" class="gs-step" data-track="Guest Step" data-track-step="host"><span class="gs-n">2</span><span class="gs-label">Host it free</span><i class="gs-prog"></i></button>
+              <button type="button" class="gs-step" data-track="Guest Step" data-track-step="invite"><span class="gs-n">3</span><span class="gs-label">Invite</span><i class="gs-prog"></i></button>
+            </div>
+            <button type="button" class="gs-toggle" data-gs-toggle aria-pressed="false">
+              <svg class="gs-if-running" aria-hidden="true"><use href="#i-pause"/></svg>
+              <svg class="gs-if-paused" aria-hidden="true"><use href="#i-play"/></svg>
+              <span class="sr-only" data-gs-toggle-label>Pause the steps</span>
+            </button>
+          </div>
+
+          <div class="gs-stage">
+            <div class="gs-scene is-on" data-gs-scene>
+              <div class="gs-visual">
+                <div class="gs-file">
+                  <span class="gs-zip" aria-hidden="true"></span>
+                  <span class="gs-file-text"><b>framecast-guest-page.zip</b><small>114 KB</small></span>
+                  <span class="gs-done" aria-hidden="true"><svg><use href="#i-check"/></svg></span>
+                  <span class="gs-bar" aria-hidden="true"><i></i></span>
+                </div>
+              </div>
+              <p class="gs-cap">A small zip. No keys inside.</p>
+            </div>
+
+            <div class="gs-scene" data-gs-scene aria-hidden="true">
+              <div class="gs-visual gs-row" aria-hidden="true">
+                <span class="gs-zip gs-zip-sm"></span>
+                <span class="gs-flow"><i></i><i></i><i></i></span>
+                <div class="gs-browser">
+                  <div class="gs-url"><span class="gs-type">yourname.pages.dev</span></div>
+                  <div class="gs-page"><b>Join the show</b><span class="gs-field"></span><span class="gs-btn">Ask to join</span></div>
+                  <span class="gs-live">Live</span>
+                </div>
+              </div>
+              <p class="gs-cap">Drop it on Cloudflare Pages. Add a LiveKit project.</p>
+            </div>
+
+            <div class="gs-scene" data-gs-scene aria-hidden="true">
+              <div class="gs-visual gs-row" aria-hidden="true">
+                <div class="gs-panel">
+                  <b>Guests</b>
+                  <span class="gs-opt">Anyone with a link</span>
+                  <span class="gs-invite"><span>pages.dev/#invite</span><em>Copy</em></span>
+                </div>
+                <span class="gs-flow"><i></i><i></i><i></i></span>
+                <div class="gs-canvas">
+                  <span class="gs-tile gs-host"></span>
+                  <span class="gs-tile gs-guest"></span>
+                  <span class="gs-onair">On air</span>
+                </div>
+              </div>
+              <p class="gs-cap">Send the link. They join from any browser.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- The studio -->
     <section class="section" id="studio" aria-labelledby="studio-title">
       <div class="wrap">
@@ -664,28 +741,6 @@
             </ol>
             <p class="fine">Following your voice needs macOS 26 or later. Everything else works on macOS 14 and up. Prefer to build it yourself? <a href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="download section">The source is on GitHub.</a></p>
           </div>
-        </div>
-
-        <!-- Guest mode needs one extra download; many people won't know it exists. -->
-        <div class="guest-mode reveal" id="guest-mode">
-          <div class="gm-head">
-            <p class="gm-pill"><svg aria-hidden="true"><use href="#i-guests"/></svg>Guest mode</p>
-            <h3 class="gm-title">Inviting guests? Get the guest page too.</h3>
-            <p class="gm-lead">Framecast can bring guests onto your show straight from their browser. For guests outside your Wi-Fi, guest mode needs one extra file: the guest page. You set it up once, for free.</p>
-          </div>
-          <ol class="gm-steps">
-            <li><span class="gm-n">1</span><h4>Download the guest page</h4><p>A small zip with the page your guests open. No keys or personal details inside.</p></li>
-            <li><span class="gm-n">2</span><h4>Put it online</h4><p>Upload it to Cloudflare Pages and create a LiveKit Cloud project. Both are free.</p></li>
-            <li><span class="gm-n">3</span><h4>Connect it in Framecast</h4><p>Guests tab › Anyone with a link › Load .env file…, then send each guest an invite link.</p></li>
-          </ol>
-          <div class="gm-actions">
-            <a class="btn btn-primary" href="downloads/framecast-guest-page.zip" download data-track="Guest Page Download" data-track-where="home guest mode">
-              <svg aria-hidden="true"><use href="#i-download"/></svg>Download guest page (.zip)
-            </a>
-            <a class="btn btn-ghost" href="guests.html" data-track="Guest Setup Click" data-track-where="home guest mode">Step-by-step guide<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
-            <span class="gm-size">114 KB · for Framecast 1.0.0</span>
-          </div>
-          <p class="gm-note">Only inviting people on this Mac or your Wi-Fi? You don't need the file: pick This Mac only or People on my Wi-Fi in the Guests tab. Those need LiveKit installed once with <code>brew install livekit</code>.</p>
         </div>
       </div>
     </section>

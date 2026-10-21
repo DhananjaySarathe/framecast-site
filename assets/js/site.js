@@ -120,6 +120,77 @@
     }
   }
 
+  // Guest mode walkthrough: three scenes that play in turn. The progress bar's own animation drives the
+  // timing, so hovering, focusing, scrolling away or pressing pause simply holds it where it is.
+  function setupGuestSteps() {
+    const root = $("[data-gs]");
+    if (!root) return;
+    const steps = $$(".gs-step", root);
+    const scenes = $$("[data-gs-scene]", root);
+    const toggle = $("[data-gs-toggle]", root);
+    const toggleLabel = $("[data-gs-toggle-label]", root);
+    let current = 0;
+    let userPaused = reduceMotion;
+    const holds = { hover: false, focus: false, offscreen: true, paused: userPaused };
+
+    function hold() {
+      holds.paused = userPaused;
+      root.toggleAttribute("data-hold", Object.values(holds).some(Boolean) || document.hidden);
+    }
+
+    function show(n) {
+      current = (n + steps.length) % steps.length;
+      scenes.forEach((scene, i) => {
+        scene.classList.remove("is-on");
+        scene.setAttribute("aria-hidden", String(i !== current));
+      });
+      steps.forEach((step, i) => {
+        step.classList.remove("run");
+        step.classList.toggle("done", i < current);
+        if (i === current) step.setAttribute("aria-current", "step");
+        else step.removeAttribute("aria-current");
+      });
+      void root.offsetWidth; // restart the scene's and the progress bar's animations
+      scenes[current].classList.add("is-on");
+      if (!reduceMotion) steps[current].classList.add("run");
+    }
+
+    steps.forEach((step, i) => step.addEventListener("click", () => show(i)));
+    $(".gs-steps", root).addEventListener("animationend", (e) => {
+      if (e.animationName === "progress") show(current + 1);
+    });
+
+    if (reduceMotion) {
+      toggle.hidden = true;
+    } else {
+      toggle.addEventListener("click", () => {
+        userPaused = !userPaused;
+        toggle.setAttribute("aria-pressed", String(userPaused));
+        toggleLabel.textContent = userPaused ? "Play the steps" : "Pause the steps";
+        hold();
+      });
+    }
+    root.addEventListener("mouseenter", () => { holds.hover = true; hold(); });
+    root.addEventListener("mouseleave", () => { holds.hover = false; hold(); });
+    root.addEventListener("focusin", () => { holds.focus = true; hold(); });
+    root.addEventListener("focusout", (e) => { if (!root.contains(e.relatedTarget)) { holds.focus = false; hold(); } });
+    document.addEventListener("visibilitychange", hold);
+
+    let seen = false;
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver((entries) => {
+        holds.offscreen = !entries[0].isIntersecting;
+        // Start from step 1 the first time it comes into view, so nobody misses the beginning.
+        if (!holds.offscreen && !seen) { seen = true; show(0); }
+        hold();
+      }, { threshold: 0.35 }).observe(root);
+    } else {
+      holds.offscreen = false;
+    }
+    show(0);
+    hold();
+  }
+
   function setupReveal() {
     const items = $$(".reveal");
     if (reduceMotion || !("IntersectionObserver" in window)) {
@@ -310,6 +381,7 @@
   setupCopy();
   setupTabs();
   setupVideo();
+  setupGuestSteps();
   setupReveal();
   setupStage();
 })();
