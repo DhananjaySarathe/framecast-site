@@ -4,7 +4,7 @@
 
 // Your Mixpanel project token: Mixpanel › Project Settings › Overview › Access Keys › Project Token.
 // It's meant to be public (it only lets people send events), so it's fine in this file.
-const MIXPANEL_TOKEN = "";
+const MIXPANEL_TOKEN = "e25dd6a43096def43efd8de075ded5b5";
 
 // Where your Mixpanel project stores data (Project Settings › Overview › Data Residency):
 // US "https://api-js.mixpanel.com", EU "https://api-eu.mixpanel.com", India "https://api-in.mixpanel.com".
