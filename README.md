@@ -11,7 +11,7 @@ loads only when someone presses play on the demo. The Content-Security-Policy in
 ```
 index.html                        the landing page
 guests.html                       how to host the guest page so guests can join from anywhere
-downloads/framecast-guest-page.zip  the guest page for Framecast 1.0.0 (what guests.html offers)
+downloads/framecast-guest-page.zip  the guest page for Framecast 1.1.0 (what guests.html offers)
 assets/css/site.css               styles (light by default; the toggle switches to dark)
 assets/js/theme.js                applies a saved light/dark choice before the page paints
 assets/js/analytics.js            Mixpanel events (token and region at the top)
@@ -43,8 +43,8 @@ Under the main button, "All versions and release notes" links to the releases pa
 
 What does change with a new version (search `index.html` for each):
 
-- the version number, `1.0.0` (hero line and download card)
-- the size, `71 MB` (hero line and download button)
+- the version number, `1.1.0` (hero line and download card)
+- the size, `72 MB` (hero line and download button)
 - the SHA-256 (download card: shown text and the Copy button's `data-copy`)
 - the macOS requirement, if it moves from macOS 14
 
@@ -87,7 +87,7 @@ To track another link or button, add `data-track="Event Name"` (and optional `da
 
 `downloads/framecast-guest-page.zip` holds the same four files Framecast's `scripts/export_guest_page.sh` writes
 (index.html, livekit-client.umd.js, its license and `_headers`), with the files at the top of the zip. When a new
-Framecast version changes the guest page, rebuild the zip from framecast-studio and update "for Framecast 1.0.0"
+Framecast version changes the guest page, rebuild the zip from framecast-studio and update "for Framecast 1.1.0"
 and the size on guests.html:
 
 ```bash

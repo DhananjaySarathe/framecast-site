@@ -61,6 +61,9 @@
     <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"><path d="M4.2 4.5h15.6a1.2 1.2 0 0 1 1.2 1.2v9.6a1.2 1.2 0 0 1-1.2 1.2H11l-5 4v-4H4.2A1.2 1.2 0 0 1 3 15.3V5.7a1.2 1.2 0 0 1 1.2-1.2z"/><path d="M7.5 9h9M7.5 12.5h6" stroke-linecap="round"/></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5v-3a4 4 0 0 1 8 0v3"/></symbol>
     <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></symbol>
+    <symbol id="i-captions" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 13.5h4M13.5 13.5H17M7 16h7"/></symbol>
+    <symbol id="i-angles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="12" height="10" rx="2"/><path d="M14.5 10.5 21 7v10l-6.5-3.5"/><path d="M6 4h6"/></symbol>
+    <symbol id="i-zoom" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5.5 5.5M8 10.5h5M10.5 8v5"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
     <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11.5M7 10.5l5 5 5-5M4.5 20h15"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5V5A1.5 1.5 0 0 0 14 3.5H5A1.5 1.5 0 0 0 3.5 5v9A1.5 1.5 0 0 0 5 15.5h3.5"/></symbol>
@@ -131,7 +134,7 @@
             <svg aria-hidden="true"><use href="#i-github"/></svg>Source on GitHub
           </a>
         </div>
-        <p class="meta">Version 1.0.0 <span aria-hidden="true">·</span> macOS 14 or later <span aria-hidden="true">·</span> Apple silicon and Intel <span aria-hidden="true">·</span> 71 MB</p>
+        <p class="meta">Version 1.1.0 <span aria-hidden="true">·</span> macOS 14 or later <span aria-hidden="true">·</span> Apple silicon and Intel <span aria-hidden="true">·</span> 72 MB</p>
 
         <!-- Animated illustration: one presenter, two canvases, the AI director switching looks. -->
         <div class="studio" data-stage>
@@ -334,7 +337,7 @@
               <div class="gs-visual">
                 <div class="gs-file">
                   <span class="gs-zip" aria-hidden="true"></span>
-                  <span class="gs-file-text"><b>framecast-guest-page.zip</b><small>114 KB</small></span>
+                  <span class="gs-file-text"><b>framecast-guest-page.zip</b><small>133 KB</small></span>
                   <span class="gs-done" aria-hidden="true"><svg><use href="#i-check"/></svg></span>
                   <span class="gs-bar" aria-hidden="true"><i></i></span>
                 </div>
@@ -557,6 +560,25 @@
           </article>
 
           <article class="tile reveal">
+            <span class="tile-new">New in 1.1</span>
+            <svg class="tile-icon" aria-hidden="true"><use href="#i-captions"/></svg>
+            <h3>Live captions</h3>
+            <p>What you say shows at the bottom of both canvases as you say it, recognised on your Mac by Apple's speech recognition. Fix lines in the transcript, and every recording gets an .srt beside it. Needs macOS 26 or later.</p>
+          </article>
+          <article class="tile reveal">
+            <span class="tile-new">New in 1.1</span>
+            <svg class="tile-icon" aria-hidden="true"><use href="#i-angles"/></svg>
+            <h3>Camera angles from your phones</h3>
+            <p>Phones join as extra angles of you. Pick one with a click or ⌃⌥⌘1–6, or let the shuffle cut between them in your pauses, with your face kept in frame and your voice lined up with each picture. One camera can give you a medium and a close-up too.</p>
+          </article>
+          <article class="tile reveal">
+            <span class="tile-new">New in 1.1</span>
+            <svg class="tile-icon" aria-hidden="true"><use href="#i-zoom"/></svg>
+            <h3>Screen share that moves like an edit</h3>
+            <p>Click on your shared screen and the view glides in, follows your cursor, then eases back to the whole screen. It never zooms into password fields or apps you keep private. Off until you switch it on.</p>
+          </article>
+
+          <article class="tile reveal">
             <svg class="tile-icon" aria-hidden="true"><use href="#i-stream"/></svg>
             <h3>Stream to RTMP and RTMPS</h3>
             <p>Send each canvas wherever you like. Stream keys stay in your Mac's Keychain, and a pre-flight check tests sound, cameras and disk space first.</p>
@@ -629,6 +651,7 @@
             <li>Markers and YouTube chapters</li>
             <li>Clip the last 30 seconds</li>
             <li>Rehearsal with missed-cue fixes</li>
+            <li>Transcript and subtitles for every recording</li>
           </ul>
         </div>
       </div>
@@ -695,11 +718,11 @@
         <div class="dl reveal">
           <div class="dl-main">
             <img class="dl-icon" src="assets/img/icon-256.png" width="112" height="112" alt="Framecast app icon">
-            <p class="dl-name">Framecast <span>1.0.0</span></p>
+            <p class="dl-name">Framecast <span>1.1.0</span></p>
             <!-- Installer: always the latest GitHub release (the hero button uses the same link). -->
             <a class="btn btn-primary btn-xl" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link data-track="Download Click" data-track-where="download section">
               <svg aria-hidden="true"><use href="#i-download"/></svg>
-              <span class="btn-stack"><span>Download for Mac</span><small>Framecast.dmg · 71 MB</small></span>
+              <span class="btn-stack"><span>Download for Mac</span><small>Framecast.dmg · 72 MB</small></span>
             </a>
             <p class="dl-alt"><a href="https://github.com/DhananjaySarathe/framecast-studio/releases" data-track="Release Notes Click">All versions and release notes</a></p>
             <dl class="specs">
@@ -710,11 +733,11 @@
             <div class="hash">
               <div class="hash-head">
                 <span>SHA-256</span>
-                <button class="copy" type="button" data-track="Copy" data-track-what="SHA-256" data-copy="00432793fd93e0367f47147b74931e91e758782c9da070085bc4e4700a120220">
+                <button class="copy" type="button" data-track="Copy" data-track-what="SHA-256" data-copy="bcd4e31c86be2857b0a1d85a5872a5d05ca611933b263e21f0596a5836b305f6">
                   <svg aria-hidden="true"><use href="#i-copy"/></svg><span data-copy-label>Copy</span>
                 </button>
               </div>
-              <code class="hash-value">00432793fd93e0367f47147b74931e91e758782c9da070085bc4e4700a120220</code>
+              <code class="hash-value">bcd4e31c86be2857b0a1d85a5872a5d05ca611933b263e21f0596a5836b305f6</code>
               <p>To check your copy, run <code>shasum -a 256 ~/Downloads/Framecast.dmg</code> in Terminal and compare.</p>
             </div>
           </div>
