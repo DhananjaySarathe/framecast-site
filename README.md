@@ -65,10 +65,10 @@ The Windows releases are GitHub **pre-releases**, and `/releases/latest` skips p
 name the exact version:
 
 ```
-https://github.com/DhananjaySarathe/framecast-studio-windows/releases/download/v0.1.3/Framecast-Studio-Windows-0.1.3-x64-Setup.exe
+https://github.com/DhananjaySarathe/framecast-studio-windows/releases/download/v0.1.4/Framecast-Studio-Windows-0.1.4-x64-Setup.exe
 ```
 
-For a new Windows version, search `index.html` for `0.1.3` and update every match: the hero button and line, the
+For a new Windows version, search `index.html` for `0.1.4` and update every match: the hero button and line, the
 download card, the portable ZIP link and the PowerShell box (shown text and `data-copy`). Also update the sizes
 (`18 MB` Setup, `22 MB` ZIP) and the SHA-256 (from the release's `SHA256SUMS.txt`). If a Windows release is ever
 published as a full release with a fixed file name, the links can switch to `/releases/latest/download/…` like the Mac ones.
