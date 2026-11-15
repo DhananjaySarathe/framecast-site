@@ -30,7 +30,7 @@ Then open http://127.0.0.1:8765.
 
 ## The download link
 
-Both **Download for Mac** buttons in `index.html` point to:
+Both **Download for Mac** buttons in `index.html` (hero and download section) point to:
 
 ```
 https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg
@@ -52,12 +52,14 @@ The Mac panel's "Or install from Terminal" box uses the same `latest` link with 
 
 ## Mac or Windows
 
-The download section has a **Mac** tab and a **Windows** tab. `assets/js/theme.js` sets `data-os="windows"` on
-`<html>` when the browser reports Windows. That opens the Windows tab and swaps the hero's `.if-mac` button and
-lines for the `.if-win` ones. Everyone else sees the Mac version first. Add `?platform=windows` or `?platform=mac`
-to the address to force one (handy for checking or for sharing a link). Download clicks carry a `platform` property
-in Mixpanel. Tab clicks send `Platform Tab`, and the hero's "Get the Windows preview" and "Get it for Mac" links send
-`Platform Switch`.
+The hero always shows both buttons, **Download for Mac** and **Download for Windows**. Each one starts its download
+and scrolls to that platform's tab in the download section, which has the first-open steps and the terminal command.
+The download section has a **Mac** tab and a **Windows** tab.
+
+`assets/js/theme.js` sets `data-os="windows"` on `<html>` when the browser reports Windows. On Windows the Windows
+button is filled and comes first, and the download section opens on the Windows tab. Everyone else gets Mac first.
+Add `?platform=windows` or `?platform=mac` to the address to force one, which is handy for checking or for sharing
+a link. Download clicks carry a `platform` property in Mixpanel, and tab clicks send `Platform Tab`.
 
 The Windows releases are GitHub **pre-releases**, and `/releases/latest` skips pre-releases. So the Windows links
 name the exact version:
@@ -90,7 +92,7 @@ screen size, language and any `utm_*` tags; Mixpanel adds city, region and count
 |---|---|---|
 | Page View | a page loads | `theme`, `section` |
 | Download Click | a Download for Mac or Windows button, or the Windows portable ZIP | `platform` (mac, windows), `where` (hero, download section, portable zip) |
-| Platform Tab / Platform Switch | the Mac/Windows tabs, or the hero link to the other platform | `tab` or `to` |
+| Platform Tab | the Mac/Windows tabs in the download section | `tab` |
 | Section Viewed | a section scrolls into view, once per visit | `section` |
 | Demo Video Play | the demo video's play button | |
 | Live Example Click | "Watch the live stream" under the demo | |

@@ -126,22 +126,21 @@
           Its AI director follows what you say, changes the layout and brings in your graphics as you reach each topic.
           Don't like a switch? One shortcut takes it back.
         </p>
-        <!-- theme.js sets data-os="windows" on Windows PCs, which swaps the .if-mac and .if-win pieces below. -->
-        <div class="cta-row">
-          <a class="btn btn-primary btn-lg if-mac" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link data-show-steps="mac" data-track="Download Click" data-track-platform="mac" data-track-where="hero">
-            <svg aria-hidden="true"><use href="#i-download"/></svg>Download for Mac
+        <!-- Both downloads, always. The visitor's own platform is the filled button and comes first
+             (theme.js sets data-os="windows" on Windows PCs). A click starts the download and scrolls to that
+             platform's first-open steps in the download section. -->
+        <div class="cta-row hero-dl-row">
+          <a class="btn btn-lg hero-dl hero-dl-mac" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link data-show-steps="mac" data-track="Download Click" data-track-platform="mac" data-track-where="hero">
+            <svg aria-hidden="true"><use href="#i-download"/></svg>
+            <span class="btn-stack"><span>Download for Mac</span><small>macOS 14 or later · 72 MB</small></span>
           </a>
-          <a class="btn btn-primary btn-lg if-win" href="https://github.com/DhananjaySarathe/framecast-studio-windows/releases/download/v0.1.1/Framecast-Studio-Windows-0.1.1-x64-Setup.exe" data-win-link data-show-steps="windows" data-track="Download Click" data-track-platform="windows" data-track-where="hero">
-            <svg aria-hidden="true"><use href="#i-download"/></svg>Download for Windows
-          </a>
-          <a class="btn btn-ghost btn-lg" href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="hero">
-            <svg aria-hidden="true"><use href="#i-github"/></svg>Source on GitHub
+          <a class="btn btn-lg hero-dl hero-dl-win" href="https://github.com/DhananjaySarathe/framecast-studio-windows/releases/download/v0.1.1/Framecast-Studio-Windows-0.1.1-x64-Setup.exe" data-win-link data-show-steps="windows" data-track="Download Click" data-track-platform="windows" data-track-where="hero">
+            <svg aria-hidden="true"><use href="#i-download"/></svg>
+            <span class="btn-stack"><span>Download for Windows</span><small>Windows 11 · 18 MB · Preview</small></span>
           </a>
         </div>
-        <p class="meta if-mac">Version 1.1.0 <span aria-hidden="true">·</span> macOS 14 or later <span aria-hidden="true">·</span> Apple silicon and Intel <span aria-hidden="true">·</span> 72 MB</p>
-        <p class="meta if-win">Windows preview 0.1.1 <span aria-hidden="true">·</span> Windows 11 <span aria-hidden="true">·</span> Intel and AMD, 64-bit <span aria-hidden="true">·</span> 18 MB</p>
-        <p class="meta-alt if-mac">On a Windows PC? <a href="#download" data-pick-os="windows" data-track="Platform Switch" data-track-to="windows" data-track-where="hero">Get the Windows preview</a></p>
-        <p class="meta-alt if-win">The Windows preview covers capture, recording and streaming. The AI director is Mac-only for now. <a href="#download" data-pick-os="mac" data-track="Platform Switch" data-track-to="mac" data-track-where="hero">Get it for Mac</a></p>
+        <p class="meta">Mac 1.1.0 <span aria-hidden="true">·</span> Windows preview 0.1.1 <span aria-hidden="true">·</span> <a href="#download" data-track="Nav Click" data-track-where="hero">Install steps and terminal commands</a> <span aria-hidden="true">·</span> <a href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="hero">Source on GitHub</a></p>
+        <p class="meta-alt">The Windows preview covers capture, recording and streaming. The AI director is Mac-only for now.</p>
 
         <!-- Animated illustration: one presenter, two canvases, the AI director switching looks. -->
         <div class="studio" data-stage>

@@ -730,8 +730,22 @@ h2 { margin: 0 0 18px; font-size: clamp(2rem, 1.15rem + 3.2vw, 3.4rem); line-hei
 /* Mac or Windows: theme.js sets data-os="windows" on Windows PCs */
 html:not([data-os="windows"]) .if-win,
 html[data-os="windows"] .if-mac { display: none !important; }
-.meta-alt { margin: 8px 0 0; color: var(--faint); font-size: 13.5px; }
-.meta-alt a { color: var(--text); font-weight: 550; text-underline-offset: 3px; }
+.meta-alt { margin: 6px 0 0; color: var(--faint); font-size: 13.5px; }
+.meta a { color: var(--muted); text-underline-offset: 3px; }
+.meta a:hover { color: var(--text); }
+
+/* Hero: both downloads. The visitor's platform is filled and first; the other is outlined. */
+.hero-dl { min-width: 248px; padding: 12px 26px 12px 22px; background: transparent; color: var(--text); border-color: var(--border-strong); }
+.hero-dl:hover { border-color: var(--text); }
+html:not([data-os="windows"]) .hero-dl-mac,
+html[data-os="windows"] .hero-dl-win { background: var(--btn); color: var(--btn-text); border-color: transparent; }
+html:not([data-os="windows"]) .hero-dl-mac:hover,
+html[data-os="windows"] .hero-dl-win:hover { background: var(--btn-hover); }
+html[data-os="windows"] .hero-dl-win { order: -1; }
+@media (max-width: 560px) {
+  .hero-dl-row { flex-direction: column; align-items: stretch; max-width: 340px; margin-inline: auto; }
+  .hero-dl { justify-content: flex-start; }
+}
 
 .platform-tabs { margin-bottom: 28px; }
 .platform-tabs [role="tab"] { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-size: 15px; font-weight: 550; }
