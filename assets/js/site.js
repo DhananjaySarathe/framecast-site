@@ -1,5 +1,6 @@
 // Framecast site. No dependencies; nothing is loaded from other servers.
-// The installer link lives in index.html (the two Download for Mac buttons): the latest GitHub release.
+// The installer links live in index.html: Download for Mac (the latest GitHub release) and
+// Download for Windows (a pinned version, because the Windows releases are pre-releases).
 
 (() => {
   "use strict";
@@ -8,13 +9,26 @@
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // The download starts and the page stays put, so bring the first-open steps into view.
+  // Show the Mac or Windows panel in the download section.
+  function pickPlatform(os) {
+    const root = $("[data-platforms]");
+    const tab = root && $(`[role="tab"][data-platform="${os}"]`, root);
+    if (tab && root.selectTab) root.selectTab(tab);
+  }
+
+  // The download starts and the page stays put, so bring that platform's first-open steps into view.
   function setupDownload() {
     const steps = $("#download");
+    pickPlatform(document.documentElement.dataset.os === "windows" ? "windows" : "mac");
     for (const link of $$("[data-show-steps]")) {
       link.addEventListener("click", () => {
+        if (link.dataset.showSteps) pickPlatform(link.dataset.showSteps);
         setTimeout(() => steps.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }), 150);
       });
+    }
+    // "Get the Windows preview" and similar links open that panel; their #download href does the scrolling.
+    for (const link of $$("[data-pick-os]")) {
+      link.addEventListener("click", () => pickPlatform(link.dataset.pickOs));
     }
   }
 
@@ -90,6 +104,9 @@
           list.scrollTo({ left: tab.offsetLeft - (list.clientWidth - tab.offsetWidth) / 2, behavior: reduceMotion ? "auto" : "smooth" });
         }
       };
+      root.selectTab = (tab) => select(tab);
+      // Panels may ship without `hidden` (so all of them show without scripts); sync them to the selected tab.
+      select(tabs.find((t) => t.getAttribute("aria-selected") === "true") || tabs[0]);
       tabs.forEach((tab, i) => {
         tab.addEventListener("click", () => select(tab));
         tab.addEventListener("keydown", (e) => {
@@ -375,11 +392,11 @@
     }, 1000);
   }
 
-  setupDownload();
   setupTheme();
   setupNav();
   setupCopy();
   setupTabs();
+  setupDownload();
   setupVideo();
   setupGuestSteps();
   setupReveal();

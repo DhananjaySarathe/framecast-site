@@ -1,7 +1,7 @@
 # Framecast website
 
 The landing page for [Framecast](https://github.com/DhananjaySarathe/framecast-studio), the free, open-source
-live-streaming studio for macOS.
+live-streaming studio for macOS, and for the [Windows preview](https://github.com/DhananjaySarathe/framecast-studio-windows).
 
 It's a plain static site: two HTML pages, one stylesheet, a few small scripts and some images. No build step, no
 dependencies, no cookies, and system fonts only. It talks to two outside services: Mixpanel, for anonymous visit
@@ -13,7 +13,7 @@ index.html                        the landing page
 guests.html                       how to host the guest page so guests can join from anywhere
 downloads/framecast-guest-page.zip  the guest page for Framecast 1.1.0 (what guests.html offers)
 assets/css/site.css               styles (light by default; the toggle switches to dark)
-assets/js/theme.js                applies a saved light/dark choice before the page paints
+assets/js/theme.js                applies a saved light/dark choice and marks Windows PCs before the page paints
 assets/js/analytics.js            Mixpanel events (token and region at the top)
 assets/js/site.js                 hero animation, demo video, screenshot tabs, copy buttons, scroll reveal
 assets/js/guests.js               the settings-file helper on guests.html (runs only in the browser)
@@ -48,6 +48,29 @@ What does change with a new version (search `index.html` for each):
 - the SHA-256 (download card: shown text and the Copy button's `data-copy`)
 - the macOS requirement, if it moves from macOS 14
 
+The Mac panel's "Or install from Terminal" box uses the same `latest` link with `curl -LO`, so it needs no change.
+
+## Mac or Windows
+
+The download section has a **Mac** tab and a **Windows** tab. `assets/js/theme.js` sets `data-os="windows"` on
+`<html>` when the browser reports Windows. That opens the Windows tab and swaps the hero's `.if-mac` button and
+lines for the `.if-win` ones. Everyone else sees the Mac version first. Add `?platform=windows` or `?platform=mac`
+to the address to force one (handy for checking or for sharing a link). Download clicks carry a `platform` property
+in Mixpanel. Tab clicks send `Platform Tab`, and the hero's "Get the Windows preview" and "Get it for Mac" links send
+`Platform Switch`.
+
+The Windows releases are GitHub **pre-releases**, and `/releases/latest` skips pre-releases. So the Windows links
+name the exact version:
+
+```
+https://github.com/DhananjaySarathe/framecast-studio-windows/releases/download/v0.1.1/Framecast-Studio-Windows-0.1.1-x64-Setup.exe
+```
+
+For a new Windows version, search `index.html` for `0.1.1` and update every match: the hero button and line, the
+download card, the portable ZIP link and the PowerShell box (shown text and `data-copy`). Also update the sizes
+(`18 MB` Setup, `22 MB` ZIP) and the SHA-256 (from the release's `SHA256SUMS.txt`). If a Windows release is ever
+published as a full release with a fixed file name, the links can switch to `/releases/latest/download/…` like the Mac ones.
+
 ## Mixpanel
 
 Open `assets/js/analytics.js` and fill in the two values at the top:
@@ -66,7 +89,8 @@ screen size, language and any `utm_*` tags; Mixpanel adds city, region and count
 | Event | When | Extra properties |
 |---|---|---|
 | Page View | a page loads | `theme`, `section` |
-| Download Click | a Download for Mac button | `where` (hero, download section) |
+| Download Click | a Download for Mac or Windows button, or the Windows portable ZIP | `platform` (mac, windows), `where` (hero, download section, portable zip) |
+| Platform Tab / Platform Switch | the Mac/Windows tabs, or the hero link to the other platform | `tab` or `to` |
 | Section Viewed | a section scrolls into view, once per visit | `section` |
 | Demo Video Play | the demo video's play button | |
 | Live Example Click | "Watch the live stream" under the demo | |

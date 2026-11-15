@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self'; script-src 'self'; frame-src https://www.youtube-nocookie.com; connect-src https://api-js.mixpanel.com https://api-eu.mixpanel.com https://api-in.mixpanel.com; base-uri 'none'; form-action 'none'">
   <title>Framecast: a free live studio for Mac with an AI director</title>
-  <meta name="description" content="Framecast is a free, open-source macOS app for live streaming and recording. It renders 16:9 and 9:16 at once, and an AI director switches layouts and graphics as you talk.">
+  <meta name="description" content="Framecast is a free, open-source macOS app for live streaming and recording, with a Windows preview. It renders 16:9 and 9:16 at once, and an AI director switches layouts and graphics as you talk.">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#ffffff">
   <meta property="og:type" content="website">
@@ -119,22 +119,29 @@
     <section class="hero" id="top">
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="wrap hero-in">
-        <p class="eyebrow-pill"><span class="dot" aria-hidden="true"></span>Free and open source, for macOS</p>
+        <p class="eyebrow-pill"><span class="dot" aria-hidden="true"></span>Free and open source. Now on Windows too</p>
         <h1>You talk.<br><em>Framecast directs.</em></h1>
         <p class="lead">
           A live studio for your Mac that streams and records a 16:9 and a 9:16 canvas at once.
           Its AI director follows what you say, changes the layout and brings in your graphics as you reach each topic.
           Don't like a switch? One shortcut takes it back.
         </p>
+        <!-- theme.js sets data-os="windows" on Windows PCs, which swaps the .if-mac and .if-win pieces below. -->
         <div class="cta-row">
-          <a class="btn btn-primary btn-lg" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link data-show-steps data-track="Download Click" data-track-where="hero">
+          <a class="btn btn-primary btn-lg if-mac" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link data-show-steps="mac" data-track="Download Click" data-track-platform="mac" data-track-where="hero">
             <svg aria-hidden="true"><use href="#i-download"/></svg>Download for Mac
+          </a>
+          <a class="btn btn-primary btn-lg if-win" href="https://github.com/DhananjaySarathe/framecast-studio-windows/releases/download/v0.1.1/Framecast-Studio-Windows-0.1.1-x64-Setup.exe" data-win-link data-show-steps="windows" data-track="Download Click" data-track-platform="windows" data-track-where="hero">
+            <svg aria-hidden="true"><use href="#i-download"/></svg>Download for Windows
           </a>
           <a class="btn btn-ghost btn-lg" href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="hero">
             <svg aria-hidden="true"><use href="#i-github"/></svg>Source on GitHub
           </a>
         </div>
-        <p class="meta">Version 1.1.0 <span aria-hidden="true">·</span> macOS 14 or later <span aria-hidden="true">·</span> Apple silicon and Intel <span aria-hidden="true">·</span> 72 MB</p>
+        <p class="meta if-mac">Version 1.1.0 <span aria-hidden="true">·</span> macOS 14 or later <span aria-hidden="true">·</span> Apple silicon and Intel <span aria-hidden="true">·</span> 72 MB</p>
+        <p class="meta if-win">Windows preview 0.1.1 <span aria-hidden="true">·</span> Windows 11 <span aria-hidden="true">·</span> Intel and AMD, 64-bit <span aria-hidden="true">·</span> 18 MB</p>
+        <p class="meta-alt if-mac">On a Windows PC? <a href="#download" data-pick-os="windows" data-track="Platform Switch" data-track-to="windows" data-track-where="hero">Get the Windows preview</a></p>
+        <p class="meta-alt if-win">The Windows preview covers capture, recording and streaming. The AI director is Mac-only for now. <a href="#download" data-pick-os="mac" data-track="Platform Switch" data-track-to="mac" data-track-where="hero">Get it for Mac</a></p>
 
         <!-- Animated illustration: one presenter, two canvases, the AI director switching looks. -->
         <div class="studio" data-stage>
@@ -672,6 +679,7 @@
               <a class="btn btn-primary" href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="open source">
                 <svg aria-hidden="true"><use href="#i-github"/></svg>View the code
               </a>
+              <a class="btn btn-ghost" href="https://github.com/DhananjaySarathe/framecast-studio-windows" data-track="GitHub Click" data-track-platform="windows" data-track-where="open source">Windows source</a>
               <a class="btn btn-ghost" href="https://github.com/DhananjaySarathe/framecast-studio/blob/main/LICENSE" data-track="License Click" data-track-where="open source">Read the license</a>
             </div>
           </div>
@@ -687,7 +695,7 @@
 <span class="p" aria-hidden="true">$ </span>cd framecast-studio
 <span class="p" aria-hidden="true">$ </span>./scripts/build_app.sh
 <span class="p" aria-hidden="true">$ </span>open build/Framecast.app</code></pre>
-            <p class="terminal-note">Needs the Xcode Command Line Tools (Swift 6). Full Xcode isn't needed.</p>
+            <p class="terminal-note">Needs the Xcode Command Line Tools (Swift 6). Full Xcode isn't needed. On Windows, run <code>.\setup.cmd</code> and <code>.\build.cmd</code> from a clone of <a href="https://github.com/DhananjaySarathe/framecast-studio-windows#build-from-source" data-track="GitHub Click" data-track-platform="windows" data-track-where="build">framecast-studio-windows</a>.</p>
           </div>
         </div>
 
@@ -706,63 +714,162 @@
       </div>
     </section>
 
-    <!-- Download -->
+    <!-- Download: one panel per platform. Windows PCs open on the Windows panel (theme.js sets data-os). -->
     <section class="section" id="download" aria-labelledby="download-title">
       <div class="wrap">
         <div class="section-head reveal">
           <p class="eyebrow">Download</p>
-          <h2 id="download-title">Get Framecast for Mac</h2>
-          <p class="section-lead">Free. The app runs on your Mac, with no account and no tracking.</p>
+          <h2 id="download-title">Get Framecast</h2>
+          <p class="section-lead">Free for Mac, with a developer preview for Windows 11. No account and no tracking.</p>
         </div>
 
-        <div class="dl reveal">
-          <div class="dl-main">
-            <img class="dl-icon" src="assets/img/icon-256.png" width="112" height="112" alt="Framecast app icon">
-            <p class="dl-name">Framecast <span>1.1.0</span></p>
-            <!-- Installer: always the latest GitHub release (the hero button uses the same link). -->
-            <a class="btn btn-primary btn-xl" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link data-track="Download Click" data-track-where="download section">
-              <svg aria-hidden="true"><use href="#i-download"/></svg>
-              <span class="btn-stack"><span>Download for Mac</span><small>Framecast.dmg · 72 MB</small></span>
-            </a>
-            <p class="dl-alt"><a href="https://github.com/DhananjaySarathe/framecast-studio/releases" data-track="Release Notes Click">All versions and release notes</a></p>
-            <dl class="specs">
-              <div><dt>Needs</dt><dd>macOS 14 Sonoma or later</dd></div>
-              <div><dt>Runs on</dt><dd>Apple silicon and Intel Macs</dd></div>
-              <div><dt>Price</dt><dd>Free, MIT license</dd></div>
-            </dl>
-            <div class="hash">
-              <div class="hash-head">
-                <span>SHA-256</span>
-                <button class="copy" type="button" data-track="Copy" data-track-what="SHA-256" data-copy="bcd4e31c86be2857b0a1d85a5872a5d05ca611933b263e21f0596a5836b305f6">
+        <div class="platforms reveal" data-tabs data-platforms>
+          <div class="tabs platform-tabs" role="tablist" aria-label="Choose your computer">
+            <button type="button" role="tab" id="tab-mac" aria-controls="dl-mac" aria-selected="true" data-platform="mac" data-track="Platform Tab">Mac</button>
+            <button type="button" role="tab" id="tab-windows" aria-controls="dl-windows" aria-selected="false" tabindex="-1" data-platform="windows" data-track="Platform Tab">Windows <span class="tag">Preview</span></button>
+          </div>
+
+          <!-- Mac -->
+          <div class="platform" role="tabpanel" id="dl-mac" aria-labelledby="tab-mac">
+            <h3 class="platform-title">Framecast for Mac</h3>
+            <div class="dl">
+              <div class="dl-main">
+                <img class="dl-icon" src="assets/img/icon-256.png" width="112" height="112" alt="Framecast app icon">
+                <p class="dl-name">Framecast <span>1.1.0</span></p>
+                <!-- Installer: always the latest GitHub release (the hero button uses the same link). -->
+                <a class="btn btn-primary btn-xl" href="https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg" data-dmg-link data-track="Download Click" data-track-platform="mac" data-track-where="download section">
+                  <svg aria-hidden="true"><use href="#i-download"/></svg>
+                  <span class="btn-stack"><span>Download for Mac</span><small>Framecast.dmg · 72 MB</small></span>
+                </a>
+                <p class="dl-alt"><a href="https://github.com/DhananjaySarathe/framecast-studio/releases" data-track="Release Notes Click" data-track-platform="mac">All versions and release notes</a></p>
+                <dl class="specs">
+                  <div><dt>Needs</dt><dd>macOS 14 Sonoma or later</dd></div>
+                  <div><dt>Runs on</dt><dd>Apple silicon and Intel Macs</dd></div>
+                  <div><dt>Price</dt><dd>Free, MIT license</dd></div>
+                </dl>
+                <div class="hash">
+                  <div class="hash-head">
+                    <span>SHA-256</span>
+                    <button class="copy" type="button" data-track="Copy" data-track-what="SHA-256" data-track-platform="mac" data-copy="bcd4e31c86be2857b0a1d85a5872a5d05ca611933b263e21f0596a5836b305f6">
+                      <svg aria-hidden="true"><use href="#i-copy"/></svg><span data-copy-label>Copy</span>
+                    </button>
+                  </div>
+                  <code class="hash-value">bcd4e31c86be2857b0a1d85a5872a5d05ca611933b263e21f0596a5836b305f6</code>
+                  <p>To check your copy, run <code>shasum -a 256 ~/Downloads/Framecast.dmg</code> in Terminal and compare.</p>
+                </div>
+              </div>
+
+              <div class="dl-steps">
+                <h3>Opening it the first time</h3>
+                <p class="dl-why">Framecast isn't signed with a paid Apple developer account, so macOS asks you to confirm once. After that it opens like any other app.</p>
+                <ol class="install">
+                  <li><span class="n">1</span><div><b>Drag Framecast into Applications.</b> Open the DMG and drop the app on the Applications folder.</div></li>
+                  <li><span class="n">2</span><div><b>Double-click Framecast.</b> macOS says it can't verify the app. That's expected.</div></li>
+                  <li><span class="n">3</span><div><b>Allow it once.</b>
+                    <div class="os-split">
+                      <div class="os">
+                        <p class="os-name">macOS 15 or later</p>
+                        <p>Open System Settings › Privacy &amp; Security, scroll down to Security and click <b>Open Anyway</b> next to Framecast. Confirm with your password or Touch ID, then click Open.</p>
+                      </div>
+                      <div class="os">
+                        <p class="os-name">macOS 14 Sonoma</p>
+                        <p>Control-click Framecast in Applications, choose <b>Open</b>, then click <b>Open</b> again.</p>
+                      </div>
+                    </div>
+                  </div></li>
+                  <li><span class="n">4</span><div><b>Allow the camera, mic and screen</b> when Framecast first needs them. After you allow Screen Recording, quit and reopen Framecast.</div></li>
+                </ol>
+                <p class="fine">Following your voice needs macOS 26 or later. Everything else works on macOS 14 and up. Prefer to build it yourself? <a href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-platform="mac" data-track-where="download section">The source is on GitHub.</a></p>
+              </div>
+            </div>
+
+            <div class="terminal cmd">
+              <div class="terminal-bar">
+                <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="terminal-title">Or install from Terminal</span>
+                <button class="copy" type="button" data-track="Copy" data-track-what="install commands" data-track-platform="mac" data-copy="cd ~/Downloads&#10;curl -LO https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg&#10;shasum -a 256 Framecast.dmg&#10;open Framecast.dmg">
                   <svg aria-hidden="true"><use href="#i-copy"/></svg><span data-copy-label>Copy</span>
                 </button>
               </div>
-              <code class="hash-value">bcd4e31c86be2857b0a1d85a5872a5d05ca611933b263e21f0596a5836b305f6</code>
-              <p>To check your copy, run <code>shasum -a 256 ~/Downloads/Framecast.dmg</code> in Terminal and compare.</p>
+<pre><code><span class="p" aria-hidden="true">$ </span>cd ~/Downloads
+<span class="p" aria-hidden="true">$ </span>curl -LO https://github.com/DhananjaySarathe/framecast-studio/releases/latest/download/Framecast.dmg
+<span class="p" aria-hidden="true">$ </span>shasum -a 256 Framecast.dmg
+<span class="p" aria-hidden="true">$ </span>open Framecast.dmg</code></pre>
+              <p class="terminal-note">The hash should match the SHA-256 above. Then drag Framecast into Applications.</p>
             </div>
           </div>
 
-          <div class="dl-steps">
-            <h3>Opening it the first time</h3>
-            <p class="dl-why">Framecast isn't signed with a paid Apple developer account, so macOS asks you to confirm once. After that it opens like any other app.</p>
-            <ol class="install">
-              <li><span class="n">1</span><div><b>Drag Framecast into Applications.</b> Open the DMG and drop the app on the Applications folder.</div></li>
-              <li><span class="n">2</span><div><b>Double-click Framecast.</b> macOS says it can't verify the app. That's expected.</div></li>
-              <li><span class="n">3</span><div><b>Allow it once.</b>
+          <!-- Windows: the releases are pre-releases, so link the exact version (GitHub's /latest skips pre-releases). -->
+          <div class="platform" role="tabpanel" id="dl-windows" aria-labelledby="tab-windows">
+            <h3 class="platform-title">Framecast Studio for Windows</h3>
+            <div class="dl">
+              <div class="dl-main">
+                <img class="dl-icon" src="assets/img/icon-256.png" width="112" height="112" alt="Framecast app icon">
+                <p class="dl-name">Framecast Studio <span>0.1.1 preview</span></p>
+                <a class="btn btn-primary btn-xl" href="https://github.com/DhananjaySarathe/framecast-studio-windows/releases/download/v0.1.1/Framecast-Studio-Windows-0.1.1-x64-Setup.exe" data-win-link data-track="Download Click" data-track-platform="windows" data-track-where="download section">
+                  <svg aria-hidden="true"><use href="#i-download"/></svg>
+                  <span class="btn-stack"><span>Download for Windows</span><small>Setup.exe · 18 MB</small></span>
+                </a>
+                <p class="dl-alt">
+                  <a href="https://github.com/DhananjaySarathe/framecast-studio-windows/releases/download/v0.1.1/Framecast-Studio-Windows-0.1.1-x64-Portable.zip" data-track="Download Click" data-track-platform="windows" data-track-where="portable zip">Portable ZIP, 22 MB</a>
+                  <span aria-hidden="true">·</span>
+                  <a href="https://github.com/DhananjaySarathe/framecast-studio-windows/releases" data-track="Release Notes Click" data-track-platform="windows">All versions and release notes</a>
+                </p>
+                <dl class="specs">
+                  <div><dt>Needs</dt><dd>Windows 11</dd></div>
+                  <div><dt>Runs on</dt><dd>Intel and AMD PCs, 64-bit</dd></div>
+                  <div><dt>Status</dt><dd>Developer preview, unsigned</dd></div>
+                  <div><dt>Price</dt><dd>Free, MIT license</dd></div>
+                </dl>
+                <div class="hash">
+                  <div class="hash-head">
+                    <span>SHA-256 · Setup.exe</span>
+                    <button class="copy" type="button" data-track="Copy" data-track-what="SHA-256" data-track-platform="windows" data-copy="cb66db867577d931b36577884986c61c1b25b61b1466e41e9ba6fc61e512de70">
+                      <svg aria-hidden="true"><use href="#i-copy"/></svg><span data-copy-label>Copy</span>
+                    </button>
+                  </div>
+                  <code class="hash-value">cb66db867577d931b36577884986c61c1b25b61b1466e41e9ba6fc61e512de70</code>
+                  <p>To check your copy, run <code>Get-FileHash .\Framecast-Studio-Windows-0.1.1-x64-Setup.exe</code> in PowerShell and compare.</p>
+                </div>
+              </div>
+
+              <div class="dl-steps">
+                <h3>Opening it the first time</h3>
+                <p class="dl-why">The preview isn't code-signed yet, so Windows may warn you once. It installs for your user account only. You don't need admin rights.</p>
+                <ol class="install">
+                  <li><span class="n">1</span><div><b>Run the installer.</b> Open <code>Framecast-Studio-Windows-0.1.1-x64-Setup.exe</code> from your Downloads folder. If your browser asks, choose <b>Keep</b>.</div></li>
+                  <li><span class="n">2</span><div><b>Allow it once.</b> If you see “Windows protected your PC”, click <b>More info</b>, then <b>Run anyway</b>. Then finish the setup.</div></li>
+                  <li><span class="n">3</span><div><b>Open Framecast Studio from Start.</b> Choose <b>Add</b>, pick a screen or window, a webcam and a mic, then click <b>Start preview</b>. Nothing records until you start it.</div></li>
+                  <li><span class="n">4</span><div><b>Record or go live.</b> <b>Record</b> saves the 16:9 and 9:16 canvases. To stream, add an RTMP or RTMPS server under <b>Destinations</b>, then click <b>Start broadcast</b>.</div></li>
+                </ol>
                 <div class="os-split">
                   <div class="os">
-                    <p class="os-name">macOS 15 or later</p>
-                    <p>Open System Settings › Privacy &amp; Security, scroll down to Security and click <b>Open Anyway</b> next to Framecast. Confirm with your password or Touch ID, then click Open.</p>
+                    <p class="os-name">In the preview</p>
+                    <p>Screen, window and webcam capture, mic and desktop audio, eight scenes, both canvases, recording and streaming to several RTMP/RTMPS servers.</p>
                   </div>
                   <div class="os">
-                    <p class="os-name">macOS 14 Sonoma</p>
-                    <p>Control-click Framecast in Applications, choose <b>Open</b>, then click <b>Open</b> again.</p>
+                    <p class="os-name">Mac-only for now</p>
+                    <p>The AI director, remote guests, live captions, camera angles and the rundown. Full parity with the Mac app is in progress.</p>
                   </div>
                 </div>
-              </div></li>
-              <li><span class="n">4</span><div><b>Allow the camera, mic and screen</b> when Framecast first needs them. After you allow Screen Recording, quit and reopen Framecast.</div></li>
-            </ol>
-            <p class="fine">Following your voice needs macOS 26 or later. Everything else works on macOS 14 and up. Prefer to build it yourself? <a href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="download section">The source is on GitHub.</a></p>
+                <p class="fine">To remove it, go to Settings › Apps › Installed apps › Framecast Studio › Uninstall. <a href="https://github.com/DhananjaySarathe/framecast-studio-windows" data-track="GitHub Click" data-track-platform="windows" data-track-where="download section">The Windows source is on GitHub.</a></p>
+              </div>
+            </div>
+
+            <div class="terminal cmd">
+              <div class="terminal-bar">
+                <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="terminal-title">Or install from PowerShell</span>
+                <button class="copy" type="button" data-track="Copy" data-track-what="install commands" data-track-platform="windows" data-copy="cd $HOME\Downloads&#10;curl.exe -LO https://github.com/DhananjaySarathe/framecast-studio-windows/releases/download/v0.1.1/Framecast-Studio-Windows-0.1.1-x64-Setup.exe&#10;Get-FileHash .\Framecast-Studio-Windows-0.1.1-x64-Setup.exe&#10;.\Framecast-Studio-Windows-0.1.1-x64-Setup.exe">
+                  <svg aria-hidden="true"><use href="#i-copy"/></svg><span data-copy-label>Copy</span>
+                </button>
+              </div>
+<pre><code><span class="p" aria-hidden="true">PS&gt; </span>cd $HOME\Downloads
+<span class="p" aria-hidden="true">PS&gt; </span>curl.exe -LO https://github.com/DhananjaySarathe/framecast-studio-windows/releases/download/v0.1.1/Framecast-Studio-Windows-0.1.1-x64-Setup.exe
+<span class="p" aria-hidden="true">PS&gt; </span>Get-FileHash .\Framecast-Studio-Windows-0.1.1-x64-Setup.exe
+<span class="p" aria-hidden="true">PS&gt; </span>.\Framecast-Studio-Windows-0.1.1-x64-Setup.exe</code></pre>
+              <p class="terminal-note">Type <code>curl.exe</code>, not <code>curl</code>: in Windows PowerShell, <code>curl</code> runs a different command. Windows 11 includes curl. The hash should match the SHA-256 above.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -773,11 +880,12 @@
     <div class="wrap footer-in">
       <div class="footer-brand">
         <a class="brand" href="#top"><svg class="mark" viewBox="100 100 824 824" width="24" height="24" aria-hidden="true" focusable="false"><rect class="mark-body" x="100" y="100" width="824" height="824" rx="185"/><path class="mark-line" d="M215 334V215h119M690 215h119v119M215 690v119h119M690 809h119V690" stroke-width="46"/><rect class="mark-line" x="284" y="433" width="368" height="207" rx="26" stroke-width="40"/><rect class="mark-line mark-front" x="536" y="299" width="194" height="344" rx="26" stroke-width="40"/><circle class="mark-dot" cx="723" cy="301" r="42"/></svg><span>Framecast</span></a>
-        <p>A free, open-source live studio for macOS. Made by <a href="https://github.com/DhananjaySarathe">DhananjaySarathe</a>.</p>
+        <p>A free, open-source live studio for macOS, with a Windows preview. Made by <a href="https://github.com/DhananjaySarathe">DhananjaySarathe</a>.</p>
       </div>
       <nav class="footer-links" aria-label="Footer">
         <a href="guests.html" data-track="Guest Setup Click" data-track-where="footer">Remote guests</a>
         <a href="https://github.com/DhananjaySarathe/framecast-studio" data-track="GitHub Click" data-track-where="footer">GitHub</a>
+        <a href="https://github.com/DhananjaySarathe/framecast-studio-windows" data-track="GitHub Click" data-track-platform="windows" data-track-where="footer">Windows source</a>
         <a href="https://x.com/dhananjay11211" data-track="Social Click" data-track-network="x" data-track-where="footer">X</a>
         <a href="https://www.youtube.com/@ChilledBeer?sub_confirmation=1" data-track="Social Click" data-track-network="youtube" data-track-where="footer">YouTube</a>
         <a href="https://github.com/DhananjaySarathe/framecast-studio/blob/main/LICENSE" data-track="License Click" data-track-where="footer">MIT license</a>
